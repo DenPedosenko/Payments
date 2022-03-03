@@ -13,10 +13,10 @@ public class UserDao {
 	public static List<User> getUsers(Connection connection) {
 		List<User> books = new ArrayList<User>();
 		try(Statement stmt = connection.createStatement()) {
-			ResultSet rs = stmt.executeQuery("SELECT * from books");
+			ResultSet rs = stmt.executeQuery("SELECT * from users");
 
 			while (rs.next()) {
-				books.add(new User(rs.getString("title"), rs.getString("author")));
+				books.add(new User(rs.getString("email"), rs.getString("user_password")));
 			}
 			rs.close();
 		} catch (SQLException e) {

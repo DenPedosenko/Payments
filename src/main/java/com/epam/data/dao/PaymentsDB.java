@@ -17,7 +17,7 @@ public class PaymentsDB {
 		try {
 			Context initContext = new InitialContext();
 			Context envContext = (Context)initContext.lookup("java:/comp/env");
-			DataSource ds = (DataSource)envContext.lookup("jdbc/TestDB");
+			DataSource ds = (DataSource)envContext.lookup("jdbc/Payments_db");
 			connection = ds.getConnection();
 		} catch (SQLException | NamingException e) {
 			System.out.println("Can't get class. No driver found");
