@@ -1,0 +1,9 @@
+DROP TABLE IF EXISTS `Payments`.`user_types` ;
+DROP TABLE IF EXISTS `Payments`.`user_status` ;
+DROP TABLE IF EXISTS `Payments`.`users` ;
+DROP TABLE IF EXISTS `Payments`.`payment_status` ;
+DROP TABLE IF EXISTS `Payments`.`payment_type` ;
+DROP TABLE IF EXISTS `Payments`.`account_status` ;
+DROP TABLE IF EXISTS `Payments`.`account` ;
+DROP TABLE IF EXISTS `Payments`.`payment` ;
+DROP TABLE IF EXISTS `Payments`.`card` ;
