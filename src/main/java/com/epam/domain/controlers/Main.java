@@ -1,6 +1,7 @@
 package com.epam.domain.controlers;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -11,25 +12,30 @@ import javax.servlet.http.HttpServletResponse;
 import com.epam.data.dao.UserDao;
 import com.epam.data.model.User;
 
-public class Main extends Controler{
+public class Main {
+	private static Connection connection = null;
 
-	@Override
-	public void get(HttpServletRequest req, HttpServletResponse resp) {
-		List<User> users = UserDao.getUsers(connection);
-		for (User user : users) {
-			System.out.println(user);
+	public static void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLogget)
+			throws ServletException, IOException {
+		req.setAttribute("language", language);
+		if (!isLogget) {
+			resp.sendRedirect(req.getContextPath() + "/login");
+		} else {
+			List<User> users = UserDao.getUsers(connection);
+			for (User user : users) {
+				System.out.println(user);
+			}
+
+			RequestDispatcher view = req.getRequestDispatcher("WEB-INF/view/index.jsp");
+			view.forward(req, resp);
 		}
-        RequestDispatcher requestDispatcher = req.getRequestDispatcher("WEB-INF/view/index.jsp");
-        try {
-			requestDispatcher.forward(req, resp);
-		} catch (ServletException | IOException e) {
-			e.printStackTrace();
-		}
-		
 	}
 
-	@Override
-	public void post(HttpServletRequest req, HttpServletResponse resp) {
-	
+	public static Connection getConnection() {
+		return connection;
+	}
+
+	public static void setConnection(Connection connection) {
+		Main.connection = connection;
 	}
 }
