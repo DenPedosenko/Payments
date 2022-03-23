@@ -4,11 +4,11 @@ import java.util.Objects;
 
 public class UserType {
 	private int id;
-	private String type;
+	private String name;
 
 	public UserType(int id, String type) {
 		this.id = id;
-		this.type = type;
+		this.name = type;
 	}
 
 	public int getId() {
@@ -20,11 +20,11 @@ public class UserType {
 	}
 
 	public String getType() {
-		return type;
+		return name;
 	}
 
 	public void setType(String type) {
-		this.type = type;
+		this.name = type;
 	}
 
 	@Override
@@ -34,16 +34,17 @@ public class UserType {
 		if (o == null || getClass() != o.getClass())
 			return false;
 		UserType userType = (UserType) o;
-		return id == userType.id && Objects.equals(type, userType.type);
+		return id == userType.id && Objects.equals(name, userType.name);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, type);
+		return Objects.hash(id, name);
 	}
 
 	@Override
 	public String toString() {
-		return "UserType{" + "id=" + id + ", type='" + type + '\'' + '}';
+		return "UserType{" + "id=" + id + ", type='" + name + '\'' + '}';
 	}
+
 }

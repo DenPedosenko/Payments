@@ -21,7 +21,7 @@ public class Main {
 		if (!isLogget) {
 			resp.sendRedirect(req.getContextPath() + "/login");
 		} else {
-			List<User> users = UserDao.getUsers(connection);
+			List<User> users = UserDao.getUsers(connection, language);
 			for (User user : users) {
 				System.out.println(user);
 			}

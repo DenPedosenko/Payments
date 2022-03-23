@@ -25,7 +25,7 @@ public class Registration {
 		view.forward(req, resp);
 	}
 
-	public static void post(HttpServletRequest req, HttpServletResponse resp) {
+	public static void post(HttpServletRequest req, HttpServletResponse resp, String language) {
 		String first_name = req.getParameter("first_name");
 		String password = req.getParameter("password");
 

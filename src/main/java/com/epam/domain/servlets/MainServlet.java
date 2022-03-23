@@ -1,7 +1,6 @@
 package com.epam.domain.servlets;
 
 import java.io.IOException;
-import java.net.http.HttpRequest;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -64,7 +63,7 @@ public class MainServlet extends HttpServlet {
 		case "/login":
 			Login.setConnection(connection);
 			Login.get(req, resp, language);
-			System.out.println(connection);
+			System.out.println("Main get" +connection);
 			break;	
 		default:
 			resp.getWriter().print("resdsdas");
@@ -75,15 +74,21 @@ public class MainServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getServletPath();
+		String language = getLanguage(req, resp);
 		switch (path) {
 		case "/":
 			Main.setConnection(connection);
 			System.out.println(connection);
 			break;
-		case "/login":
+		case "/registration":
 			Registration.setConnection(connection);
-			Registration.post(req, resp);
+			Registration.post(req, resp, language);
 			System.out.println(connection);
+			break;
+		case "/login":
+			Login.setConnection(connection);
+			Login.post(req, resp, language);
+			System.out.println("Main post"+connection);
 			break;
 		default:
 			resp.getWriter().print("resd");
