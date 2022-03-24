@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS user_types (
 -- Table `Payments`.`user_status`
 -- -----------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS user_status (
+CREATE TABLE IF NOT EXISTS user_statuses (
   `id`      INTEGER PRIMARY KEY AUTO_INCREMENT,
   `name_ru` VARCHAR(50) NOT NULL,
   `name_en` VARCHAR(50) NOT NULL
@@ -31,8 +31,8 @@ CREATE TABLE IF NOT EXISTS users (
   `user_password` VARCHAR(32) NOT NULL,
   `user_type_id` INT NOT NULL,
   `user_status_id` INT NOT NULL,
-    FOREIGN KEY (`user_type_id`) REFERENCES `user_type` (`id`) ON DELETE CASCADE,
-    FOREIGN KEY (`user_status_id`) REFERENCES `user_status` (`id`) ON DELETE CASCADE
+    FOREIGN KEY (`user_type_id`) REFERENCES `user_types` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`user_status_id`) REFERENCES `user_statuses` (`id`) ON DELETE CASCADE
     );
     
 -- -----------------------------------------------------
@@ -76,7 +76,7 @@ CREATE TABLE IF NOT EXISTS accounts (
   `name_en` VARCHAR(100) NOT NULL,
   `user_id` INT NOT NULL,
   `account_status_id` INT NOT NULL,
-    FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`account_status_id`) REFERENCES `account_status` (`id`) ON DELETE CASCADE
     );
 
@@ -94,8 +94,8 @@ CREATE TABLE IF NOT EXISTS payments (
   `account_id` INT NOT NULL,
     FOREIGN KEY (`payment_type_id`) REFERENCES `payment_type` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`payment_status_id`) REFERENCES `payment_status` (`id`) ON DELETE CASCADE,
-    FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE,
-    FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE
+    FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
+    FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE
     );
 
 
@@ -109,6 +109,5 @@ CREATE TABLE IF NOT EXISTS cards (
   `exp_date` VARCHAR(5) NOT NULL,
   `cvv` VARCHAR(3) NOT NULL,
   `account_id` INT NOT NULL,
-    FOREIGN KEY (`account_id`) REFERENCES `account` (`id`) ON DELETE CASCADE
+    FOREIGN KEY (`account_id`) REFERENCES `accounts` (`id`) ON DELETE CASCADE
     );
-

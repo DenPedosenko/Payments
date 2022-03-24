@@ -53,7 +53,7 @@ public class UserDao {
 	}
 
 	public static User loginUser(Connection connection, String email, String password, String language) {
-		String query = "SELECT * FROM USERS u\n" + "JOIN user_status us ON u.user_status_id = us.id\n"
+		String query = "SELECT * FROM USERS u\n" + "JOIN user_statuses us ON u.user_status_id = us.id\n"
 				+ "JOIN user_types ut ON u.user_type_id = ut.id WHERE email=? AND user_password=?;";
 
 		try (PreparedStatement statement = connection.prepareStatement(query)) {

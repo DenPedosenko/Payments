@@ -4,6 +4,22 @@ VALUES ('User', 'Пользователь');
 INSERT INTO user_types(name_en, name_ru)
 VALUES ('Admin', 'Администратор');
 
+# UserStatuses inserts
+INSERT INTO user_statuses(name_en, name_ru)
+VALUES ('Active', 'Активный');
+INSERT INTO user_statuses(name_en, name_ru)
+VALUES ('Blocked', 'Заблокированный');
+
+# Users inserts
+INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
+VALUES ('Gendalf', 'Gray', 'the_gratest_mag@example.com', '7777', 2, 1);
+INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
+VALUES ('Aragorn', 'Elessar', 'elessar@example.com', '1111', 2, 1);
+INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
+VALUES ('Frodo', 'Bagins', 'mister_frodo@example.com', '1111', 1, 1);
+INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
+VALUES ('Sauron', 'Maia', 'the_dark_lord@example.com', '6666', 1, 2);
+
 #Account_status inserts
 INSERT INTO account_status(name_en, name_ru)
 VALUES ('Active', 'Активный');
@@ -37,22 +53,6 @@ INSERT INTO cards(card_number, exp_date, cvv, account_id)
 VALUES ('1111111111111111', '12/12', '205', 5);
 INSERT INTO cards(card_number, exp_date, cvv, account_id)
 VALUES ('1111111111111111', '12/12', '205', 6);
-
-# UserStatuses inserts
-INSERT INTO user_status(name_en, name_ru)
-VALUES ('Active', 'Активный');
-INSERT INTO user_status(name_en, name_ru)
-VALUES ('Blocked', 'Заблокированный');
-
-# Users inserts
-INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
-VALUES ('Gendalf', 'Gray', 'the_gratest_mag@example.com', '7777', 2, 1);
-INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
-VALUES ('Aragorn', 'Elessar', 'elessar@example.com', '1111', 2, 1);
-INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
-VALUES ('Frodo', 'Bagins', 'mister_frodo@example.com', '1111', 1, 1);
-INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)
-VALUES ('Sauron', 'Maia', 'the_dark_lord@example.com', '6666', 1, 2);
 
 # PaymentTypes inserts
 INSERT INTO payment_type(name_en, name_ru)
