@@ -15,6 +15,7 @@ import com.epam.data.dao.PaymentsDB;
 import com.epam.domain.controlers.Login;
 import com.epam.domain.controlers.Main;
 import com.epam.domain.controlers.Registration;
+import com.epam.domain.controlers.Logout;
 
 @WebServlet(value = "/", name = "mainPage")
 public class MainServlet extends HttpServlet {
@@ -63,8 +64,11 @@ public class MainServlet extends HttpServlet {
 		case "/login":
 			Login.setConnection(connection);
 			Login.get(req, resp, language);
-			System.out.println("Main get" +connection);
-			break;	
+			System.out.println("Main get" + connection);
+			break;
+		case "/logout":
+			Logout.get(req, resp);
+			break;
 		default:
 			resp.getWriter().print("resdsdas");
 			break;
@@ -76,10 +80,6 @@ public class MainServlet extends HttpServlet {
 		String path = req.getServletPath();
 		String language = getLanguage(req, resp);
 		switch (path) {
-		case "/":
-			Main.setConnection(connection);
-			System.out.println(connection);
-			break;
 		case "/registration":
 			Registration.setConnection(connection);
 			Registration.post(req, resp, language);
@@ -88,7 +88,7 @@ public class MainServlet extends HttpServlet {
 		case "/login":
 			Login.setConnection(connection);
 			Login.post(req, resp, language);
-			System.out.println("Main post"+connection);
+			System.out.println("Main post" + connection);
 			break;
 		default:
 			resp.getWriter().print("resd");

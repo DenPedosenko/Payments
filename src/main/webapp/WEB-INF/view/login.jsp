@@ -30,15 +30,6 @@
 					</a>
 				</div>
 			</form>
-			<%
-				boolean error = false;
-				if (request.getAttribute("error") != null) {
-					error = (Boolean) request.getAttribute("error");
-				}
-				if (error) {
-					out.print("Wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww");
-				}
-				%>
 		</div>
 		<div class="languages">
 			<span>

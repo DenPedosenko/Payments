@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="translate" />
+<%String userName = (String) session.getAttribute("userName");%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,8 @@
 </head>
 <body>
 	<main>
-		Hello world!
+		Hello world! <% out.println(userName); %>
+		<a href="logout" class = "logout">Logout</a>
 	</main>
 </body>
 </html>
