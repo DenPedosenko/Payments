@@ -9,11 +9,19 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
+import com.epam.data.dao.AccountsDao;
+import com.epam.data.dao.CardsDao;
 import com.epam.data.dao.UserDao;
+import com.epam.data.model.Card;
 import com.epam.data.model.User;
+import com.epam.data.model.UserAccount;
 
 public class Main {
 	private static Connection connection = null;
+	
+	public static Logger logger = Logger.getLogger("Main");
 
 	public static void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLogget)
 			throws ServletException, IOException {
@@ -21,11 +29,11 @@ public class Main {
 		if (!isLogget) {
 			resp.sendRedirect(req.getContextPath() + "/login");
 		} else {
-			List<User> users = UserDao.getUsers(connection, language);
-			for (User user : users) {
-				System.out.println(user);
-			}
-
+			int user_id = (int) req.getSession().getAttribute("user_id");
+			User user = UserDao.getUser(connection, user_id, language);
+			List<UserAccount> accounts = AccountsDao.getUserAccounts(connection, user, language);
+			List<Card> cards = CardsDao.getAccountsCards(connection, accounts);
+			req.setAttribute("cards", cards);
 			RequestDispatcher view = req.getRequestDispatcher("WEB-INF/view/index.jsp");
 			view.forward(req, resp);
 		}

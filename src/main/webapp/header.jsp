@@ -2,18 +2,22 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <fmt:setLocale value="${param.language}" />
 <fmt:setBundle basename="translate" />
-<header class="header_block">
-	<div class="menu_content">
-		<div class="menu_container">
-			<div class="container"></div>
-			<div class="navigation-content container">
-				<nav class="navigation">
-					<ul>
-						<li><a href="<%out.print(request.getContextPath());%>"><fmt:message
-									key="header.main" /></a></li>
-					</ul>
-				</nav>
-			</div>
-		</div>
+<%
+String userName = (String) session.getAttribute("userName");
+Integer type = (Integer) session.getAttribute("type");
+String fileName = "userLinks.jsp";
+if (type == 2) {
+	fileName = "adminLinks.jsp";
+}
+%>
+<div class="header fh">
+	<a class="logo" href="<%out.print(request.getContextPath());%>"></a> <span> <a class="languages_reference"
+		href="?language=ru">UA</a> <a class="languages_reference" href="?language=en">EN</a>
+	</span>
+	<div class="user_logo">
+		<%
+		out.print(userName);
+		%>
+		<a href="logout"><fmt:message key="general.logout" /></a>
 	</div>
-</header>
+</div>

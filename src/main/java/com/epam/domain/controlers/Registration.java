@@ -51,11 +51,15 @@ public class Registration {
 		Registration.connection = connection;
 	}
 
-	public static void get(HttpServletRequest req, HttpServletResponse resp, String language)
+	public static void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLoggenIn)
 			throws ServletException, IOException {
-		req.setAttribute("language", language);
-		RequestDispatcher view = req.getRequestDispatcher("WEB-INF/view/registration.jsp");
-		view.forward(req, resp);
+		if (!isLoggenIn) {
+			req.setAttribute("language", language);
+			RequestDispatcher view = req.getRequestDispatcher("WEB-INF/view/registration.jsp");
+			view.forward(req, resp);
+		} else {
+			resp.sendRedirect(req.getContextPath());
+		}
 	}
 
 	public static void post(HttpServletRequest req, HttpServletResponse resp, String language) throws IOException {
@@ -69,7 +73,7 @@ public class Registration {
 		int rows = UserDao.registerUser(connection, user);
 		if (rows == 0) {
 			logger.debug("Sorry, an error occurred!");
-			
+
 		} else {
 			logger.debug("User successfuly added!");
 			Utils.logIn(user, req, language);

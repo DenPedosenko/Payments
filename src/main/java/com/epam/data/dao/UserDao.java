@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import com.epam.data.model.UserStatus;
-import com.epam.data.model.UserType;
 
 import org.apache.log4j.Logger;
 
@@ -20,8 +18,7 @@ public class UserDao {
 	public static List<User> getUsers(Connection connection, String language) {
 		User user = null;
 		List<User> users = new ArrayList<User>();
-		try (Statement stmt = connection.createStatement()) {
-			ResultSet rs = stmt.executeQuery("SELECT * from users");
+		try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * from users")) {
 			while (rs.next()) {
 				user = createUser(connection, rs, language);
 				users.add(user);
@@ -54,8 +51,6 @@ public class UserDao {
 	public static User loginUser(Connection connection, String email, String password, String language) {
 
 		String query = "SELECT * FROM USERS u\n" + "WHERE email=? AND user_password=?;";
-		System.out.println(query);
-
 		try (PreparedStatement statement = connection.prepareStatement(query)) {
 			statement.setString(1, email);
 			statement.setString(2, password);
@@ -66,6 +61,7 @@ public class UserDao {
 		} catch (SQLException e) {
 			logger.info(e.getMessage());
 		}
+
 		return null;
 	}
 
@@ -74,5 +70,19 @@ public class UserDao {
 				resultSet.getString("email"), resultSet.getString("user_password"),
 				UserTypeDao.getTypeById(connection, resultSet.getInt("user_type_id"), language),
 				UserStatusDao.getStatusById(connection, resultSet.getInt("user_status_id"), language));
+	}
+
+	public static User getUser(Connection connection, int id, String language) {
+		User user = null;
+		try (Statement stmt = connection.createStatement();
+				ResultSet rs = stmt.executeQuery("SELECT * from users where id =" + id + "")) {
+			while (rs.next()) {
+				user = createUser(connection, rs, language);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			logger.info(e.getMessage());
+		}
+		return user;
 	}
 }

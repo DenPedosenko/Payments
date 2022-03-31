@@ -31,12 +31,11 @@
 				</div>
 			</form>
 		</div>
-		<div class="languages">
-			<span>
-				<a class="languages_reference" href="?language=ru">UA</a>
-				<a class="languages_reference" href="?language=en">EN</a>
-			</span>
-		</div>
 	</div>
+	<div class="languages">
+	<span> <a class="languages_reference" href="?language=ru">UA</a> <a class="languages_reference"
+		href="?language=en">EN</a>
+	</span>
+</div>
 </body>
 </html>

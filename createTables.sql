@@ -76,6 +76,7 @@ CREATE TABLE IF NOT EXISTS accounts (
   `name_en` VARCHAR(100) NOT NULL,
   `user_id` INT NOT NULL,
   `account_status_id` INT NOT NULL,
+  `balance` DECIMAL (10, 2) NOT NULL,
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`account_status_id`) REFERENCES `account_status` (`id`) ON DELETE CASCADE
     );
@@ -92,6 +93,7 @@ CREATE TABLE IF NOT EXISTS payments (
   `payment_status_id` INT NOT NULL,
   `user_id` INT NOT NULL,
   `account_id` INT NOT NULL,
+  `amount` Decimal(10,2) NOT NULL,
     FOREIGN KEY (`payment_type_id`) REFERENCES `payment_type` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`payment_status_id`) REFERENCES `payment_status` (`id`) ON DELETE CASCADE,
     FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE,

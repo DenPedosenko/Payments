@@ -23,13 +23,17 @@ public class Login {
 		Login.connection = connection;
 	}
 
-	public static void get(HttpServletRequest req, HttpServletResponse resp, String language)
+	public static void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLoggetIn)
 			throws ServletException, IOException {
-		req.setAttribute("language", language);
-		System.out.println("error " + req.getParameter("error"));
-		RequestDispatcher view = req.getRequestDispatcher("WEB-INF/view/login.jsp");
-		view.forward(req, resp);
+		if (!isLoggetIn) {
 
+			req.setAttribute("language", language);
+			RequestDispatcher view = req.getRequestDispatcher("WEB-INF/view/login.jsp");
+			view.forward(req, resp);
+		} else {
+			resp.sendRedirect(req.getContextPath());
+
+		}
 	}
 
 	public static void post(HttpServletRequest request, HttpServletResponse response, String language)
@@ -42,8 +46,8 @@ public class Login {
 			Utils.logIn(user, request, language);
 			response.sendRedirect(request.getContextPath());
 		} else {
-			response.sendRedirect(request.getContextPath()+"/login");
+			response.sendRedirect(request.getContextPath() + "/login");
 		}
-		
+
 	}
 }

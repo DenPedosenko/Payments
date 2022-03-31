@@ -7,7 +7,7 @@
 	<description>Java Laboratory App</description>
 	<servlet-mapping>
 		<servlet-name>default</servlet-name>
-		<url-pattern>/styles/*</url-pattern>
+		<url-pattern>/resources/*</url-pattern>
 	</servlet-mapping>
 	<session-config>
 		<session-timeout>10</session-timeout>

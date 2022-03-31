@@ -54,17 +54,14 @@ public class MainServlet extends HttpServlet {
 		case "/":
 			Main.setConnection(connection);
 			Main.get(req, resp, language, isLogget);
-			System.out.println(connection);
 			break;
 		case "/registration":
 			Registration.setConnection(connection);
-			Registration.get(req, resp, language);
-			System.out.println(connection);
+			Registration.get(req, resp, language, isLogget);
 			break;
 		case "/login":
 			Login.setConnection(connection);
-			Login.get(req, resp, language);
-			System.out.println("Main get" + connection);
+			Login.get(req, resp, language, isLogget);
 			break;
 		case "/logout":
 			Logout.get(req, resp);

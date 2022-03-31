@@ -27,18 +27,14 @@ INSERT INTO Account_status(name_en, name_ru)
 VALUES ('Blocked', 'Заблокированный');
 
 #Account inserts
-INSERT INTO accounts(name_en, name_ru, user_id, account_status_id)
-VALUES ('Payment', 'Платежный', 2, 1);
-INSERT INTO accounts(name_en, name_ru, user_id, account_status_id)
-VALUES ('Bonus', 'Бонусний', 2, 1);
-INSERT INTO accounts(name_en, name_ru, user_id, account_status_id)
-VALUES ('Payment', 'Платежный', 3, 1);
-INSERT INTO accounts(name_en, name_ru, user_id, account_status_id)
-VALUES ('Bonus', 'Бонусний', 3, 1);
-INSERT INTO accounts(name_en, name_ru, user_id, account_status_id)
-VALUES ('Payment', 'Платежный', 4, 2);
-INSERT INTO accounts(name_en, name_ru, user_id, account_status_id)
-VALUES ('Bonus', 'Бонусний', 4, 2);
+INSERT INTO accounts(name_en, name_ru, user_id, account_status_id, balance)
+VALUES ('Payment', 'Платежный', 3, 1, 100);
+INSERT INTO accounts(name_en, name_ru, user_id, account_status_id, balance)
+VALUES ('Bonus', 'Бонусний', 3, 1, 100);
+INSERT INTO accounts(name_en, name_ru, user_id, account_status_id, balance)
+VALUES ('Payment', 'Платежный', 4, 2, 100);
+INSERT INTO accounts(name_en, name_ru, user_id, account_status_id, balance)
+VALUES ('Bonus', 'Бонусний', 4, 2, 100);
 
 #Card inserts
 INSERT INTO cards(card_number, exp_date, cvv, account_id)
@@ -49,10 +45,6 @@ INSERT INTO cards(card_number, exp_date, cvv, account_id)
 VALUES ('1111111111111111', '12/12', '205', 3);
 INSERT INTO cards(card_number, exp_date, cvv, account_id)
 VALUES ('1111111111111111', '12/12', '205', 4);
-INSERT INTO cards(card_number, exp_date, cvv, account_id)
-VALUES ('1111111111111111', '12/12', '205', 5);
-INSERT INTO cards(card_number, exp_date, cvv, account_id)
-VALUES ('1111111111111111', '12/12', '205', 6);
 
 # PaymentTypes inserts
 INSERT INTO payment_type(name_en, name_ru)
@@ -67,7 +59,7 @@ INSERT INTO payment_status(name_en, name_ru)
 VALUES ('Sent', 'Відправлений');
 
 # Payment inserts
-INSERT INTO payments(user_id, account_id, creating_date,  payment_status_id, payment_type_id)
-VALUES (2, 1,  '2020-10-9', 1, 1);
-INSERT INTO payments(user_id, account_id, creating_date,  payment_status_id, payment_type_id)
-VALUES (3, 2,  '2020-10-15', 2, 1);
+INSERT INTO payments(user_id, account_id, creating_date,  payment_status_id, payment_type_id, amount)
+VALUES (3, 1,  '2020-10-9', 1, 1, 250.00);
+INSERT INTO payments(user_id, account_id, creating_date,  payment_status_id, payment_type_id, amount)
+VALUES (3, 2,  '2020-10-15', 2, 1, 100.00);
