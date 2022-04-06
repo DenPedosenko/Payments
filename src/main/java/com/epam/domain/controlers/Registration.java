@@ -25,9 +25,9 @@ public class Registration {
 
 		{
 			put("active_en", "Active");
-			put("active_ru", "Активный");
+			put("active_ua", "Активный");
 			put("blocked_en", "Blocked");
-			put("blocked_ru", "Заблокированный");
+			put("blocked_ua", "Заблокированный");
 		}
 	};
 	private static HashMap<String, String> types = new HashMap<String, String>() {
@@ -35,9 +35,9 @@ public class Registration {
 
 		{
 			put("user_en", "User");
-			put("user_ru", "Пользователь");
+			put("user_ua", "Пользователь");
 			put("admin_en", "Admin");
-			put("admin_ru", "Админиcтратор");
+			put("admin_ua", "Админиcтратор");
 		}
 	};
 

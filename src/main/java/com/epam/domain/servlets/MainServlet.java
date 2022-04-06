@@ -38,7 +38,7 @@ public class MainServlet extends HttpServlet {
 			}
 		}
 		if (language == null) {
-			language = "ru";
+			language = "ua";
 		}
 		Cookie languageCookie = new Cookie("language", language);
 		response.addCookie(languageCookie);

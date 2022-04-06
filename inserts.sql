@@ -1,13 +1,13 @@
 # UserTypes inserts
-INSERT INTO user_types(name_en, name_ru)
+INSERT INTO user_types(name_en, name_ua)
 VALUES ('User', 'Пользователь');
-INSERT INTO user_types(name_en, name_ru)
+INSERT INTO user_types(name_en, name_ua)
 VALUES ('Admin', 'Администратор');
 
 # UserStatuses inserts
-INSERT INTO user_statuses(name_en, name_ru)
+INSERT INTO user_statuses(name_en, name_ua)
 VALUES ('Active', 'Активный');
-INSERT INTO user_statuses(name_en, name_ru)
+INSERT INTO user_statuses(name_en, name_ua)
 VALUES ('Blocked', 'Заблокированный');
 
 # Users inserts
@@ -21,19 +21,19 @@ INSERT INTO users(first_name, last_name, email, user_password, user_type_id, use
 VALUES ('Sauron', 'Maia', 'the_dark_lord@example.com', '6666', 1, 2);
 
 #Account_status inserts
-INSERT INTO account_status(name_en, name_ru)
+INSERT INTO account_status(name_en, name_ua)
 VALUES ('Active', 'Активный');
-INSERT INTO Account_status(name_en, name_ru)
+INSERT INTO Account_status(name_en, name_ua)
 VALUES ('Blocked', 'Заблокированный');
 
 #Account inserts
-INSERT INTO accounts(name_en, name_ru, user_id, account_status_id, balance)
+INSERT INTO accounts(name_en, name_ua, user_id, account_status_id, balance)
 VALUES ('Payment', 'Платежный', 3, 1, 100);
-INSERT INTO accounts(name_en, name_ru, user_id, account_status_id, balance)
+INSERT INTO accounts(name_en, name_ua, user_id, account_status_id, balance)
 VALUES ('Bonus', 'Бонусний', 3, 1, 100);
-INSERT INTO accounts(name_en, name_ru, user_id, account_status_id, balance)
+INSERT INTO accounts(name_en, name_ua, user_id, account_status_id, balance)
 VALUES ('Payment', 'Платежный', 4, 2, 100);
-INSERT INTO accounts(name_en, name_ru, user_id, account_status_id, balance)
+INSERT INTO accounts(name_en, name_ua, user_id, account_status_id, balance)
 VALUES ('Bonus', 'Бонусний', 4, 2, 100);
 
 #Card inserts
@@ -47,15 +47,15 @@ INSERT INTO cards(card_number, exp_date, cvv, account_id)
 VALUES ('1111111111111111', '12/12', '205', 4);
 
 # PaymentTypes inserts
-INSERT INTO payment_type(name_en, name_ru)
+INSERT INTO payment_type(name_en, name_ua)
 VALUES ('Communal services', 'Комунальні послуги');
-INSERT INTO payment_type(name_en, name_ru)
+INSERT INTO payment_type(name_en, name_ua)
 VALUES ('Replenishment of mobile account', 'Поповнення мобільного рахунку');
 
 # Payment_status inserts
-INSERT INTO payment_status(name_en, name_ru)
+INSERT INTO payment_status(name_en, name_ua)
 VALUES ('Prepeared', 'Підготовлений');
-INSERT INTO payment_status(name_en, name_ru)
+INSERT INTO payment_status(name_en, name_ua)
 VALUES ('Sent', 'Відправлений');
 
 # Payment inserts

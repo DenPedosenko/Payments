@@ -5,7 +5,7 @@
 
 CREATE TABLE IF NOT EXISTS user_types (
   `id`      INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ru` VARCHAR(50) NOT NULL,
+  `name_ua` VARCHAR(50) NOT NULL,
   `name_en` VARCHAR(50) NOT NULL
 );
 
@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS user_types (
 
 CREATE TABLE IF NOT EXISTS user_statuses (
   `id`      INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ru` VARCHAR(50) NOT NULL,
+  `name_ua` VARCHAR(50) NOT NULL,
   `name_en` VARCHAR(50) NOT NULL
   );
 
@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS users (
 
 CREATE TABLE IF NOT EXISTS payment_status (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ru` VARCHAR(50) NOT NULL,
+  `name_ua` VARCHAR(50) NOT NULL,
   `name_en` VARCHAR(50) NOT NULL
   );
   -- -----------------------------------------------------
@@ -50,7 +50,7 @@ CREATE TABLE IF NOT EXISTS payment_status (
 
 CREATE TABLE IF NOT EXISTS payment_type (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ru` VARCHAR(50) NOT NULL,
+  `name_ua` VARCHAR(50) NOT NULL,
   `name_en` VARCHAR(50) NOT NULL
   );
 
@@ -61,7 +61,7 @@ CREATE TABLE IF NOT EXISTS payment_type (
 
 CREATE TABLE IF NOT EXISTS account_status (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ru` VARCHAR(50) NOT NULL,
+  `name_ua` VARCHAR(50) NOT NULL,
   `name_en` VARCHAR(50) NOT NULL
   );
 
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS account_status (
 
 CREATE TABLE IF NOT EXISTS accounts (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `name_ru` VARCHAR(100) NOT NULL,
+  `name_ua` VARCHAR(100) NOT NULL,
   `name_en` VARCHAR(100) NOT NULL,
   `user_id` INT NOT NULL,
   `account_status_id` INT NOT NULL,

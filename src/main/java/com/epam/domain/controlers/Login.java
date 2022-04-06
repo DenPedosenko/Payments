@@ -40,7 +40,7 @@ public class Login {
 			throws IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
-
+		System.out.println(email + password);
 		User user = UserDao.loginUser(connection, email, password, language);
 		if (user != null) {
 			Utils.logIn(user, request, language);

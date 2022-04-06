@@ -16,7 +16,7 @@ public class AccountsDao {
 	public static Logger logger = Logger.getLogger("AccountsDao");
 
 	public static List<UserAccount> getUserAccounts(Connection connection, User user, String language) {
-		List<UserAccount> accounts = new ArrayList<UserAccount>();
+		List<UserAccount> accounts = new ArrayList<>();
 		UserAccount account = null;
 		try (Statement stmt = connection.createStatement();
 				ResultSet resultSet = stmt

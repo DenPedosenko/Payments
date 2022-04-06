@@ -17,7 +17,7 @@ public class UserDao {
 
 	public static List<User> getUsers(Connection connection, String language) {
 		User user = null;
-		List<User> users = new ArrayList<User>();
+		List<User> users = new ArrayList<>();
 		try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * from users")) {
 			while (rs.next()) {
 				user = createUser(connection, rs, language);
