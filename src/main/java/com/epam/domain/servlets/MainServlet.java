@@ -1,6 +1,8 @@
 package com.epam.domain.servlets;
 
 import java.io.IOException;
+
+import org.apache.log4j.BasicConfigurator;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -92,6 +94,13 @@ public class MainServlet extends HttpServlet {
 			break;
 		}
 
+	}
+
+	@Override
+	public void init() throws ServletException {
+		// TODO Auto-generated method stub
+		BasicConfigurator.configure();
+		super.init();
 	}
 
 	@Override

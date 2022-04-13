@@ -1,18 +1,18 @@
 package com.epam.data.model;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Payment {
 	private int id;
-	private Date creationDate;
+	private LocalDateTime creationDate;
 	private PaymentType paymentType;
 	private PaymentStatus paymentStatus;
 	private User user;
 	private UserAccount userAccount;
 	private double amount;
 
-	public Payment(int id, Date creationDate, PaymentType paymentType, PaymentStatus paymentStatus, User user,
+	public Payment(int id, LocalDateTime creationDate, PaymentType paymentType, PaymentStatus paymentStatus, User user,
 			UserAccount userAccount, double amount) {
 		this.id = id;
 		this.creationDate = creationDate;
@@ -31,11 +31,11 @@ public class Payment {
 		this.id = id;
 	}
 
-	public Date getCreationDate() {
+	public LocalDateTime getCreationDate() {
 		return creationDate;
 	}
 
-	public void setCreationDate(Date creationDate) {
+	public void setCreationDate(LocalDateTime creationDate) {
 		this.creationDate = creationDate;
 	}
 

@@ -13,7 +13,7 @@ import com.epam.data.model.User;
 import com.epam.data.model.UserAccount;
 
 public class AccountsDao {
-	public static Logger logger = Logger.getLogger("AccountsDao");
+	public static Logger logger = Logger.getLogger(AccountsDao.class);
 
 	public static List<UserAccount> getUserAccounts(Connection connection, User user, String language) {
 		List<UserAccount> accounts = new ArrayList<>();

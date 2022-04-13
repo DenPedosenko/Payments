@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import com.epam.data.model.User;
 
 public class UserDao {
-	public static Logger logger = Logger.getLogger("UserDao");
+	public static Logger logger = Logger.getLogger(UserDao.class);
 
 	public static List<User> getUsers(Connection connection, String language) {
 		User user = null;

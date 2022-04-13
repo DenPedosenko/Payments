@@ -13,7 +13,7 @@ import com.epam.data.model.Card;
 import com.epam.data.model.UserAccount;
 
 public class CardsDao {
-	public static Logger logger = Logger.getLogger("CardsDao");
+	public static Logger logger = Logger.getLogger(CardsDao.class);
 
 	public static List<Card> getAccountsCards(Connection connection, List<UserAccount> accounts) {
 		Card card = null;

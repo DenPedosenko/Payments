@@ -18,7 +18,7 @@ import com.epam.data.model.User;
 import com.epam.utils.Utils;
 
 public class Registration {
-	private static Logger logger = Logger.getLogger("Registration");
+	private static Logger logger = Logger.getLogger(Registration.class);
 
 	private static HashMap<String, String> statuses = new HashMap<String, String>() {
 		private static final long serialVersionUID = 1L;

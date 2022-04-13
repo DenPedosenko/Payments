@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import com.epam.data.model.PaymentStatus;
 
 public class PaymentStatusDao {
-	private static Logger logger = Logger.getLogger("PaymentStatusDao");
+	private static Logger logger = Logger.getLogger(PaymentStatusDao.class);
 
     public static PaymentStatus getOrderType(Connection connection, String status, String language) {
         String selectQuery = "SELECT * FROM payment_status WHERE name_" + language + "=?";

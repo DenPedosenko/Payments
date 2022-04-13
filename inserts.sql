@@ -21,9 +21,9 @@ INSERT INTO users(first_name, last_name, email, user_password, user_type_id, use
 VALUES ('Sauron', 'Maia', 'the_dark_lord@example.com', '6666', 1, 2);
 
 #Account_status inserts
-INSERT INTO account_status(name_en, name_ua)
+INSERT INTO account_statuses(name_en, name_ua)
 VALUES ('Active', 'Активный');
-INSERT INTO Account_status(name_en, name_ua)
+INSERT INTO Account_statuses(name_en, name_ua)
 VALUES ('Blocked', 'Заблокированный');
 
 #Account inserts
@@ -47,15 +47,15 @@ INSERT INTO cards(card_number, exp_date, cvv, account_id)
 VALUES ('1111111111111111', '12/12', '205', 4);
 
 # PaymentTypes inserts
-INSERT INTO payment_type(name_en, name_ua)
+INSERT INTO payment_types(name_en, name_ua)
 VALUES ('Communal services', 'Комунальні послуги');
-INSERT INTO payment_type(name_en, name_ua)
+INSERT INTO payment_types(name_en, name_ua)
 VALUES ('Replenishment of mobile account', 'Поповнення мобільного рахунку');
 
 # Payment_status inserts
-INSERT INTO payment_status(name_en, name_ua)
+INSERT INTO payment_statuses(name_en, name_ua)
 VALUES ('Prepeared', 'Підготовлений');
-INSERT INTO payment_status(name_en, name_ua)
+INSERT INTO payment_statuses(name_en, name_ua)
 VALUES ('Sent', 'Відправлений');
 
 # Payment inserts
@@ -63,3 +63,13 @@ INSERT INTO payments(user_id, account_id, creating_date,  payment_status_id, pay
 VALUES (3, 1,  '2020-10-9', 1, 1, 250.00);
 INSERT INTO payments(user_id, account_id, creating_date,  payment_status_id, payment_type_id, amount)
 VALUES (3, 2,  '2020-10-15', 2, 1, 100.00);
+
+# Request_status inserts
+INSERT INTO request_statuses(name_en, name_ua)
+VALUES ('Active', 'Активний');
+INSERT INTO request_statuses(name_en, name_ua)
+VALUES ('Closed', 'Закритий');
+
+# Requests inserts
+INSERT INTO requests(user_id, account_id, creating_date,  request_status_id)
+VALUES (4, 1,  '2020-10-9', 1);

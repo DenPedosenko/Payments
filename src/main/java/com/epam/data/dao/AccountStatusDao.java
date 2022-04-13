@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import com.epam.data.model.AccountStatus;
 
 public class AccountStatusDao {
-	public static Logger logger = Logger.getLogger("AccountsSatusDao");
+	public static Logger logger = Logger.getLogger(AccountStatusDao.class);
 
 	public static AccountStatus getAccountStatus(Connection connection, int account_id, String language) {
 

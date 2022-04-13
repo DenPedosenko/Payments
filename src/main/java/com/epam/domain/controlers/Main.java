@@ -21,7 +21,7 @@ import com.epam.data.model.UserAccount;
 public class Main {
 	private static Connection connection = null;
 	
-	public static Logger logger = Logger.getLogger("Main");
+	public static Logger logger = Logger.getLogger(Main.class);
 
 	public static void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLogget)
 			throws ServletException, IOException {

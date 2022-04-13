@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 public class Logout {
 	public static void get(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		HttpSession session = request.getSession();
-		if ((Boolean) session.getAttribute("loggedIn")) {
+		if (session.getAttribute("loggedIn") != null && (Boolean) session.getAttribute("loggedIn")) {
 			session.setAttribute("loggedIn", false);
 		}
 		response.sendRedirect(request.getContextPath());

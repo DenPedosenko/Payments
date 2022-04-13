@@ -12,7 +12,7 @@ import com.epam.data.model.UserStatus;
 
 public class UserStatusDao {
 
-	private static Logger logger = Logger.getLogger("UserStatusDao");
+	private static Logger logger = Logger.getLogger(UserStatusDao.class);
 
 	public static UserStatus getStatus(Connection connection, String status, String language) {
 		String getUserStatusQuery = "SELECT * " +

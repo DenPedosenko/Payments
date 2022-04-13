@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import com.epam.data.model.UserType;
 
 public class UserTypeDao {
-	private static Logger logger = Logger.getLogger("UserTypeDao");
+	private static Logger logger = Logger.getLogger(UserTypeDao.class);
 
     public static UserType getTypeByName(Connection connection, String type, String language) {
         String getUserStatusQuery = "SELECT * " +
