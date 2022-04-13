@@ -3,6 +3,7 @@ package com.epam.domain.controlers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,8 +14,10 @@ import org.apache.log4j.Logger;
 
 import com.epam.data.dao.AccountsDao;
 import com.epam.data.dao.CardsDao;
+import com.epam.data.dao.PaymentDao;
 import com.epam.data.dao.UserDao;
 import com.epam.data.model.Card;
+import com.epam.data.model.Payment;
 import com.epam.data.model.User;
 import com.epam.data.model.UserAccount;
 
@@ -33,7 +36,9 @@ public class Main {
 			User user = UserDao.getUser(connection, user_id, language);
 			List<UserAccount> accounts = AccountsDao.getUserAccounts(connection, user, language);
 			List<Card> cards = CardsDao.getAccountsCards(connection, accounts);
+			Map<String, Payment> payments = PaymentDao.getUserPayments(connection, user, language);
 			req.setAttribute("cards", cards);
+			req.setAttribute("payments", payments);
 			RequestDispatcher view = req.getRequestDispatcher("WEB-INF/view/index.jsp");
 			view.forward(req, resp);
 		}

@@ -1,7 +1,10 @@
+<%@page import="com.mysql.cj.conf.ConnectionUrlParser.Pair"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.util.ResourceBundle"%>
 <%@page import="com.epam.data.model.Card"%>
+<%@page import="com.epam.data.model.Payment"%>
 <%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String) request.getAttribute("language")));
@@ -69,23 +72,14 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 	</div>
 </div>
 <div class="container mt-2">
-	<div class="row">
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<th scope="col">22.03.2022</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<th scope="row">1</th>
-					<td>•••• 5635 (Visa Fishka)</td>
-					<td>262083503747 (Універсальний безстроковий)</td>
-					<td>Виконано</td>
-					<td>6 806,00</td>
-					<td><a href="#">Повторити</a></td>
-				</tr>
-			</tbody>
-		</table>
-	</div>
+	<%
+	Map<String, Payment> payments = (Map<String, Payment>) request.getAttribute("payments");
+
+	for (String key : payments.keySet()) {
+		out.print("<div class=\"row\">" + "<table class=\"table table-hover\">" + "<thead><tr><th scope=\"col\">" + key
+		+ "</th></tr></thead>" + "<tbody><tr><td>•••• 5635 (Visa Fishka)</td>"
+		+ "<td>262083503747 (Універсальний безстроковий)</td>" + "<td>Виконано</td>" + "<td>6 806,00</td>"
+		+ "<td><a href=\"#\">Повторити</a></td></tr></tbody></table></div>");
+	}
+	%>
 </div>

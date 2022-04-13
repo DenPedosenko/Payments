@@ -39,4 +39,21 @@ public class AccountsDao {
 				resultSet.getDouble("balance"));
 	}
 
+	public static UserAccount getUserAccountById(Connection connection, int account_id, User user, String language) {
+		UserAccount userAccount = null;
+		try (Statement statement = connection.createStatement();
+				ResultSet resultSet = statement
+						.executeQuery("SELECT * FROM ACCOUNTS\n" + "WHERE id =" + account_id + "")) {
+			while (resultSet.next()) {
+				userAccount = createAccount(connection, resultSet, language, user);
+
+			}
+
+		} catch (Exception e) {
+			logger.info(e.getMessage());
+		}
+		return userAccount;
+
+	}
+
 }
