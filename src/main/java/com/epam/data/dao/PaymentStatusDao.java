@@ -13,7 +13,7 @@ public class PaymentStatusDao {
 	private static Logger logger = Logger.getLogger(PaymentStatusDao.class);
 
     public static PaymentStatus getPaymentStatusByName(Connection connection, String status, String language) {
-        String selectQuery = "SELECT * FROM payment_status WHERE name_" + language + "=?";
+        String selectQuery = "SELECT * FROM payment_statuses WHERE name_" + language + "=?";
         PaymentStatus paymentStatus = null;
         try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
             selectStatement.setString(1, status);
@@ -28,7 +28,7 @@ public class PaymentStatusDao {
     }
     
     public static PaymentStatus getPaymentStatusById(Connection connection, int id, String language) {
-        String selectQuery = "SELECT * FROM payment_status WHERE id=?";
+        String selectQuery = "SELECT * FROM payment_statuses WHERE id=?";
         PaymentStatus paymentStatus = null;
         try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
             selectStatement.setInt(1, id);

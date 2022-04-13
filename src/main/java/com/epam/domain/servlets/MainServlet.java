@@ -14,10 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.epam.data.dao.PaymentsDB;
-import com.epam.domain.controlers.Login;
-import com.epam.domain.controlers.Main;
-import com.epam.domain.controlers.Registration;
-import com.epam.domain.controlers.Logout;
+
+import com.epam.domain.controllers.ServletGetController;
+import com.epam.domain.controllers.ServletPostController;
 
 @WebServlet(value = "/", name = "mainPage")
 public class MainServlet extends HttpServlet {
@@ -52,48 +51,14 @@ public class MainServlet extends HttpServlet {
 		String path = req.getServletPath();
 		boolean isLogget = isLoggetIn(req);
 		String language = getLanguage(req, resp);
-		switch (path) {
-		case "/":
-			Main.setConnection(connection);
-			Main.get(req, resp, language, isLogget);
-			break;
-		case "/registration":
-			Registration.setConnection(connection);
-			Registration.get(req, resp, language, isLogget);
-			break;
-		case "/login":
-			Login.setConnection(connection);
-			Login.get(req, resp, language, isLogget);
-			break;
-		case "/logout":
-			Logout.get(req, resp);
-			break;
-		default:
-			resp.getWriter().print("resdsdas");
-			break;
-		}
+		ServletGetController.findRoute(path).getController(connection).get(req, resp, language, isLogget);
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getServletPath();
 		String language = getLanguage(req, resp);
-		switch (path) {
-		case "/registration":
-			Registration.setConnection(connection);
-			Registration.post(req, resp, language);
-			System.out.println(connection);
-			break;
-		case "/login":
-			Login.setConnection(connection);
-			Login.post(req, resp, language);
-			System.out.println("Main post" + connection);
-			break;
-		default:
-			resp.getWriter().print("resd");
-			break;
-		}
-
+		ServletPostController.findRoute(path).getController(connection).post(req, resp, language);
 	}
 
 	@Override

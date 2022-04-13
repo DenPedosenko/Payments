@@ -1,5 +1,9 @@
 package com.epam.utils;
 
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.util.Locale;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,5 +18,10 @@ public class Utils {
 		session.setAttribute("status", user.getUserStatus().getId());
 		session.setAttribute("email", user.getEmail());
 		session.setAttribute("userName", user.getUserName());
+	}
+	
+	public static DateTimeFormatter getDateTimeFormater(String language) {
+		DateTimeFormatterBuilder builder = new DateTimeFormatterBuilder().parseCaseInsensitive().parseLenient().appendPattern("yyyy-MM-dd HH:mm:ss");
+		return language == "en"?builder.toFormatter(Locale.ENGLISH):builder.toFormatter();
 	}
 }

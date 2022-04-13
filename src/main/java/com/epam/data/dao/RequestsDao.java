@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 
 import com.epam.data.model.Request;
 import com.epam.data.model.User;
-import com.epam.data.model.UserAccount;
 
 public class RequestsDao {
 	private static Logger logger = Logger.getLogger(RequestsDao.class);
@@ -28,19 +27,21 @@ public class RequestsDao {
 			ResultSet resultSet = selectStatement.executeQuery();
 			while (resultSet.next()) {
 				request = createRequest(resultSet, connection, language);
+				requests.add(request);
 			}
 			
 		} catch (SQLException e) {
 			logger.error(e.getMessage());
 		}
 		
-		return null;
+		return requests;
 		
 	}
 
 	private static Request createRequest(ResultSet resultSet, Connection connection, String language) throws SQLException {
 		User user = UserDao.getUser(connection, resultSet.getInt("user_id"), language);
-		return 	new Request(resultSet.getInt("id"), user, AccountsDao.getUserAccounts(connection, user, language),LocalDateTime.parse(resultSet.getString("creating_date")));
+		return 	new Request(resultSet.getInt("id"), user, AccountsDao.getUserAccountById(connection, resultSet.getInt("account_id"), user, language),LocalDateTime.parse(resultSet.getString("creating_date")));
+
 	}
 
 }

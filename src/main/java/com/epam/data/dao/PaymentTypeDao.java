@@ -13,7 +13,7 @@ public class PaymentTypeDao {
 	private static Logger logger = Logger.getLogger(PaymentTypeDao.class);
 
     public static PaymentType getPaymentTypeByName(Connection connection, String type, String language) {
-        String selectQuery = "SELECT * FROM payment_type WHERE name_" + language + "=?";
+        String selectQuery = "SELECT * FROM payment_types WHERE name_" + language + "=?";
         PaymentType paymentType = null;
         try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
             selectStatement.setString(1, type);
@@ -28,7 +28,7 @@ public class PaymentTypeDao {
     }
     
     public static PaymentType getPaymentTypeById(Connection connection, int id, String language) {
-        String selectQuery = "SELECT * FROM payment_type WHERE id=?";
+        String selectQuery = "SELECT * FROM payment_types WHERE id=?";
         PaymentType paymentType = null;
         try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
             selectStatement.setInt(1, id);

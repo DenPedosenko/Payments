@@ -62,6 +62,8 @@ VALUES ('Sent', 'Відправлений');
 INSERT INTO payments(user_id, account_id, creating_date,  payment_status_id, payment_type_id, amount)
 VALUES (3, 1,  '2020-10-9', 1, 1, 250.00);
 INSERT INTO payments(user_id, account_id, creating_date,  payment_status_id, payment_type_id, amount)
+VALUES (3, 1,  '2020-10-9 12:00:00', 1, 1, 250.00);
+INSERT INTO payments(user_id, account_id, creating_date,  payment_status_id, payment_type_id, amount)
 VALUES (3, 2,  '2020-10-15', 2, 1, 100.00);
 
 # Request_status inserts

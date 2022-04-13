@@ -17,7 +17,7 @@ public class AccountStatusDao {
 		AccountStatus accountStatus = null;
 		try (Statement statement = connection.createStatement();
 				ResultSet resultSet = statement
-						.executeQuery("SELECT * FROM ACCOUNT_STATUS\n" + "WHERE id =" + account_id + "")) {
+						.executeQuery("SELECT * FROM ACCOUNT_STATUSES\n" + "WHERE id =" + account_id + "")) {
 			while (resultSet.next()) {
 				accountStatus = createAccountStatus(resultSet, language);
 

@@ -1,4 +1,4 @@
-package com.epam.domain.controlers;
+package com.epam.domain.controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -12,18 +12,23 @@ import com.epam.data.dao.UserDao;
 import com.epam.data.model.User;
 import com.epam.utils.Utils;
 
-public class Login {
-	private static Connection connection = null;
+public class Login implements GetController, PostController {
+	private  Connection connection = null;
+	private static Login instance = null;
 
-	public static Connection getConnection() {
+	private Login(Connection connection) {
+		this.connection = connection;
+	}
+
+	public  Connection getConnection() {
 		return connection;
 	}
 
-	public static void setConnection(Connection connection) {
-		Login.connection = connection;
+	public  void setConnection(Connection connection) {
+		this.connection = connection;
 	}
 
-	public static void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLoggetIn)
+	public void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLoggetIn)
 			throws ServletException, IOException {
 		if (!isLoggetIn) {
 
@@ -36,7 +41,7 @@ public class Login {
 		}
 	}
 
-	public static void post(HttpServletRequest request, HttpServletResponse response, String language)
+	public void post(HttpServletRequest request, HttpServletResponse response, String language)
 			throws IOException {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -49,5 +54,12 @@ public class Login {
 			response.sendRedirect(request.getContextPath() + "/login");
 		}
 
+	}
+	
+	public static Login getIntsance(Connection connection) {
+		if(instance == null) {
+			instance = new Login(connection);
+		}
+		return instance;
 	}
 }

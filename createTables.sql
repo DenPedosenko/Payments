@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS accounts (
 
 CREATE TABLE IF NOT EXISTS payments (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `creating_date` DATE NOT NULL,
+  `creating_date` DATETIME NOT NULL,
   `payment_type_id` INT NOT NULL,
   `payment_status_id` INT NOT NULL,
   `user_id` INT NOT NULL,
@@ -116,7 +116,7 @@ CREATE TABLE IF NOT EXISTS request_statuses (
 
 CREATE TABLE IF NOT EXISTS requests (
   `id` INTEGER PRIMARY KEY AUTO_INCREMENT,
-  `creating_date` DATE NOT NULL,
+  `creating_date` DATETIME NOT NULL,
   `user_id` INT NOT NULL,
   `account_id` INT NOT NULL,
   `request_status_id` INT NOT NULL,

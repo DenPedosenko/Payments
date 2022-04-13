@@ -1,4 +1,4 @@
-package com.epam.domain.controlers;
+package com.epam.domain.controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -17,7 +17,9 @@ import com.epam.data.dao.UserTypeDao;
 import com.epam.data.model.User;
 import com.epam.utils.Utils;
 
-public class Registration {
+public class Registration implements GetController, PostController {
+	private static Registration instance;
+	
 	private static Logger logger = Logger.getLogger(Registration.class);
 
 	private static HashMap<String, String> statuses = new HashMap<String, String>() {
@@ -41,17 +43,17 @@ public class Registration {
 		}
 	};
 
-	private static Connection connection = null;
+	private  Connection connection = null;
 
-	public static Connection getConnection() {
+	public  Connection getConnection() {
 		return connection;
 	}
 
-	public static void setConnection(Connection connection) {
-		Registration.connection = connection;
+	public  void setConnection(Connection connection) {
+		this.connection = connection;
 	}
 
-	public static void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLoggenIn)
+	public void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLoggenIn)
 			throws ServletException, IOException {
 		if (!isLoggenIn) {
 			req.setAttribute("language", language);
@@ -62,7 +64,7 @@ public class Registration {
 		}
 	}
 
-	public static void post(HttpServletRequest req, HttpServletResponse resp, String language) throws IOException {
+	public void post(HttpServletRequest req, HttpServletResponse resp, String language) throws IOException {
 		String first_name = req.getParameter("first_name");
 		String last_name = req.getParameter("last_name");
 		String email = req.getParameter("email");
@@ -80,6 +82,17 @@ public class Registration {
 			resp.sendRedirect(req.getContextPath());
 		}
 
+	}
+
+	public static Registration getInstance(Connection connection) {
+		if( instance == null) {
+			instance = new Registration(connection);
+		}
+		return instance;
+	}
+	
+	private Registration(Connection connection) {
+		this.connection = connection;
 	}
 
 }

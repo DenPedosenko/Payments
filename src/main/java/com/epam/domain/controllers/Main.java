@@ -1,4 +1,4 @@
-package com.epam.domain.controlers;
+package com.epam.domain.controllers;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -21,12 +21,13 @@ import com.epam.data.model.Payment;
 import com.epam.data.model.User;
 import com.epam.data.model.UserAccount;
 
-public class Main {
-	private static Connection connection = null;
+public class Main implements GetController {
+	private  Connection connection = null;
+	private static Main instance = null;
 	
 	public static Logger logger = Logger.getLogger(Main.class);
 
-	public static void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLogget)
+	public void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLogget)
 			throws ServletException, IOException {
 		req.setAttribute("language", language);
 		if (!isLogget) {
@@ -36,7 +37,7 @@ public class Main {
 			User user = UserDao.getUser(connection, user_id, language);
 			List<UserAccount> accounts = AccountsDao.getUserAccounts(connection, user, language);
 			List<Card> cards = CardsDao.getAccountsCards(connection, accounts);
-			Map<String, Payment> payments = PaymentDao.getUserPayments(connection, user, language);
+			Map<String, List<Payment>> payments = PaymentDao.getUserPayments(connection, user, language);
 			req.setAttribute("cards", cards);
 			req.setAttribute("payments", payments);
 			RequestDispatcher view = req.getRequestDispatcher("WEB-INF/view/index.jsp");
@@ -44,11 +45,21 @@ public class Main {
 		}
 	}
 
-	public static Connection getConnection() {
+	public  Connection getConnection() {
 		return connection;
 	}
 
-	public static void setConnection(Connection connection) {
-		Main.connection = connection;
+	private Main(Connection connection) {
+		this.connection = connection;
+	}
+
+	public static Main getInstance(Connection connection) {
+		if(instance == null) {
+			instance = new Main(connection);
+		}
+		return instance;
+	}
+	public  void setConnection(Connection connection) {
+		this.connection = connection;
 	}
 }
