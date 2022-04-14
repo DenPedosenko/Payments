@@ -63,7 +63,6 @@ public class MainServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		// TODO Auto-generated method stub
 		BasicConfigurator.configure();
 		super.init();
 	}
@@ -71,12 +70,10 @@ public class MainServlet extends HttpServlet {
 	@Override
 	public void destroy() {
 		System.out.println("destory#called");
-		// TODO Auto-generated method stub
 		super.destroy();
 		try {
 			connection.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

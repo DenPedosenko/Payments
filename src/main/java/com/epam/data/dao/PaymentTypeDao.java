@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 
@@ -41,4 +44,20 @@ public class PaymentTypeDao {
         }
         return paymentType;
     }
+
+	public static List<PaymentType> getTypes(Connection connection, String language) {
+		String selectQuery = "SELECT * FROM payment_types";
+		List<PaymentType> types = new ArrayList<>();
+        PaymentType paymentType = null;
+        try (Statement selectStatement = connection.createStatement()) {
+            ResultSet resultSet = selectStatement.executeQuery(selectQuery);
+            if (resultSet.next()) {
+                paymentType = new PaymentType(resultSet.getInt("id"), resultSet.getString("name_" + language));
+                types.add(paymentType);
+            }
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return types;
+	}
 }

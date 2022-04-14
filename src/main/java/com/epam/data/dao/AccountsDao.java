@@ -29,7 +29,6 @@ public class AccountsDao {
 			logger.info(e.getMessage());
 		}
 		return accounts;
-
 	}
 
 	private static UserAccount createAccount(Connection connection, ResultSet resultSet, String language, User user)

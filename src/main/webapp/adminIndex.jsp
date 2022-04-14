@@ -1,6 +1,7 @@
+<%@page import="java.time.format.DateTimeFormatter"%>
+<%@page import="com.epam.data.model.Request"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.util.ResourceBundle"%>
-<%@page import="com.epam.data.model.Card"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
@@ -53,4 +54,33 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 		<h1>
 		<fmt:message key="admin.header" />
 	</h1>
+	<div class="container">
+		<table class="table table-sm align-middle">
+  			<thead>
+    		<tr>
+      			<th scope="col">Date</th>
+      			<th scope="col">User</th>
+      			<th scope="col">Account</th>
+      			<th scope="col">Action</th>
+    		</tr>
+  			</thead>
+  			<tbody>
+			<%
+			List<Request> userRequests = (List<Request>) request.getAttribute("requests");
+			for (Request userRequest : userRequests) {
+			out.print("  <tr>\r\n"
+					+ "      <th scope=\"row\">"+DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(userRequest.getDate())+"</th>\r\n"
+					+ "      <td>"+userRequest.getUser().getUserName()+"</td>\r\n"
+					+ "      <td>"+userRequest.getAccount().getName()+"</td>\r\n"
+					+ "      <td><div class=\"btn-group\">\r\n"
+					+ "  			<a href=\"#\" class=\"btn btn-danger \" aria-current=\"page\">"+bundle.getString("admin.dismiss")+"</a>\r\n"
+					+ "  			<a href=\"#\" class=\"btn btn-primary\">"+bundle.getString("admin.accept")+"</a>\r\n"
+					+ "			</div>"
+					+"		</td>\r\n"
+					+ "  </tr>");
+			}
+			%>
+			</tbody>
+		</table>	
+	</div>
 </div>

@@ -14,6 +14,7 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 
 import com.epam.data.model.Payment;
+import com.epam.data.model.PaymentStatus;
 import com.epam.data.model.User;
 import com.epam.utils.Utils;
 
@@ -28,6 +29,25 @@ public class PaymentDao {
 
 		try (PreparedStatement statement = connection.prepareStatement(getCardsQuery)) {
 			statement.setInt(1, user.getId());
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				payment = createPayment(connection, resultSet, user, language);
+				putPayment(payments, payment);
+			}
+		} catch (SQLException e) {
+			logger.info(e.getMessage());
+		}
+		return payments;
+	}
+	
+	public static Map<String, List<Payment>> getUserPaymentsByStatus(Connection connection, User user, PaymentStatus status,  String language) {
+		Map<String, List<Payment>> payments = new HashMap<>();
+		Payment payment = null;
+		String getCardsQuery = "SELECT * FROM Payments WHERE user_id = ? AND payment_status_id=?;";
+
+		try (PreparedStatement statement = connection.prepareStatement(getCardsQuery)) {
+			statement.setInt(1, user.getId());
+			statement.setInt(2, status.getId());
 			ResultSet resultSet = statement.executeQuery();
 			while (resultSet.next()) {
 				payment = createPayment(connection, resultSet, user, language);
@@ -54,7 +74,6 @@ public class PaymentDao {
 			paymentsByDate = tempList;
 		}
 		return paymentsByDate;
-		
 	}
 
 	public static Payment createPayment(Connection connection, ResultSet resultSet, User user, String language)
