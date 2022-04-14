@@ -5,8 +5,11 @@ import java.io.PrintWriter;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.*;
+import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
+
+@WebFilter(urlPatterns = "/*")
 public class RegistrationFilter implements Filter{
 
 	private boolean validateText(String text, String regex) {
@@ -17,17 +20,17 @@ public class RegistrationFilter implements Filter{
 
     private boolean validatePost(ServletRequest servletRequest) {
         String name = servletRequest.getParameter("first_name");
-        if (!validateText(name, "^[a-zA-Z‡-ˇ˛¿-ﬂﬁ]+$")) {
+        if (!validateText(name, "^[a-zA-Z–∞-—è—é–ê-–Ø–Æ]+$")) {
             return false;
         }
-//        String surname = servletRequest.getParameter("last_name");
-//        if (!validateText(surname, "^[a-zA-Z‡-ˇ˛¿-ﬂﬁ]+$")) {
-//            return false;
-//        }
-//        String email = servletRequest.getParameter("email");
-//        if (!validateText(email, "@")) {
-//            return false;
-//        }
+        String surname = servletRequest.getParameter("last_name");
+        if (!validateText(surname, "^[a-zA-Z–∞-—è—é–ê-–Ø–Æ]+$")) {
+            return false;
+        }
+        String email = servletRequest.getParameter("email");
+        if (!validateText(email, "@")) {
+            return false;
+        }
         String password = servletRequest.getParameter("password");
         return validateText(password, "^[a-zA-Z0-9]{8,20}$");
     }
