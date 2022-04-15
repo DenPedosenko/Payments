@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -41,9 +42,9 @@ public class PaymentDao {
 	}
 	
 	public static Map<String, List<Payment>> getUserPaymentsByStatus(Connection connection, User user, PaymentStatus status,  String language) {
-		Map<String, List<Payment>> payments = new HashMap<>();
+		Map<String, List<Payment>> payments = new LinkedHashMap<String, List<Payment>>();
 		Payment payment = null;
-		String getCardsQuery = "SELECT * FROM Payments WHERE user_id = ? AND payment_status_id=?;";
+		String getCardsQuery = "SELECT * FROM Payments WHERE user_id = ? AND payment_status_id=? Order by creating_date desc;";
 
 		try (PreparedStatement statement = connection.prepareStatement(getCardsQuery)) {
 			statement.setInt(1, user.getId());
@@ -84,5 +85,21 @@ public class PaymentDao {
 				user, AccountsDao.getUserAccountById(connection, resultSet.getInt("account_id"), user, language),
 				resultSet.getDouble("amount"));
 
+	}
+	
+	public static int insertPayment(Connection connection, int userId, int accountId, int paymentStatusId, int paymentTypeId, double amount) {
+		String insertQuery = "INSERT INTO payments(user_id, account_id, creating_date,  payment_status_id, payment_type_id, amount)\n"
+				+ "VALUES (?, ?, NOW(), ?, ?, ?);";
+		try (PreparedStatement insertUserStatement = connection.prepareStatement(insertQuery)) {
+			insertUserStatement.setInt(1, userId);
+			insertUserStatement.setInt(2, accountId);
+			insertUserStatement.setInt(3, paymentStatusId);
+			insertUserStatement.setInt(4, paymentTypeId);
+			insertUserStatement.setDouble(5, amount);
+			return insertUserStatement.executeUpdate();
+		} catch (SQLException e) {
+			logger.info(e.getMessage());
+		}
+		return 0;
 	}
 }

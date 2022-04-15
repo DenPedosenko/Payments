@@ -21,7 +21,7 @@ public class PaymentTypeDao {
         try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
             selectStatement.setString(1, type);
             ResultSet resultSet = selectStatement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 paymentType = new PaymentType(resultSet.getInt("id"), resultSet.getString("name_" + language));
             }
         } catch (SQLException e) {
@@ -36,7 +36,7 @@ public class PaymentTypeDao {
         try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
             selectStatement.setInt(1, id);
             ResultSet resultSet = selectStatement.executeQuery();
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 paymentType = new PaymentType(resultSet.getInt("id"), resultSet.getString("name_" + language));
             }
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class PaymentTypeDao {
         PaymentType paymentType = null;
         try (Statement selectStatement = connection.createStatement()) {
             ResultSet resultSet = selectStatement.executeQuery(selectQuery);
-            if (resultSet.next()) {
+            while (resultSet.next()) {
                 paymentType = new PaymentType(resultSet.getInt("id"), resultSet.getString("name_" + language));
                 types.add(paymentType);
             }

@@ -77,8 +77,7 @@ public class Card {
 
 	@Override
 	public String toString() {
-		return "Card [id=" + id + ", cardNumber=" + cardNumber + ", expDate=" + expDate + ", cvv=" + cvv + ", account="
-				+ account + "]";
+		return account.getName() + " Card ****" + cardNumber.substring(12)+"   Balance: "+account.getBalance();
 	}
 
 }

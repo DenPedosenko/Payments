@@ -8,7 +8,7 @@ public enum ServletGetController {
 	MainController("/") {
 
 		@Override
-		public GetController getController(Connection connection) {
+		public GetController getControllerInstance(Connection connection) {
 			return Main.getInstance(connection);
 
 		}
@@ -16,21 +16,28 @@ public enum ServletGetController {
 	},
 	LoginController("/login") {
 		@Override
-		public GetController getController(Connection connection) {
+		public GetController getControllerInstance(Connection connection) {
 			return Login.getIntsance(connection);
 
 		}
 	},
 	RegistrationController("/registration") {
 		@Override
-		public GetController getController(Connection connection) {
+		public GetController getControllerInstance(Connection connection) {
 			return Registration.getInstance(connection);
 
 		}
 	},
+	PaymentsController("/payments") {
+		@Override
+		public GetController getControllerInstance(Connection connection) {
+			return Payments.getInstance(connection);
+		}
+
+	},
 	LogoutController("/logout") {
 		@Override
-		public GetController getController(Connection connection) {
+		public GetController getControllerInstance(Connection connection) {
 			return new Logout();
 
 		}
@@ -46,7 +53,7 @@ public enum ServletGetController {
 		this.route = route;
 	}
 
-	public abstract GetController getController(Connection connection);
+	public abstract GetController getControllerInstance(Connection connection);
 
 	public static ServletGetController findRoute(String route) throws IllegalArgumentException {
 		return Arrays.stream(ServletGetController.values()).filter(v -> v.getRoute().equals(route)).findFirst()

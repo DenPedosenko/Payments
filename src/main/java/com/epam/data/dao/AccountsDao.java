@@ -1,6 +1,7 @@
 package com.epam.data.dao;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -54,5 +55,30 @@ public class AccountsDao {
 		return userAccount;
 
 	}
+	
+	public static int changeAccountStatus(Connection connection, int id, int statusId) {
+        String changeStatusQuery = "UPDATE accounts SET account_status_id=? WHERE id=?;";
+        try (PreparedStatement changeBookAmountStatement = connection.prepareStatement(changeStatusQuery)) {
+            changeBookAmountStatement.setInt(1, statusId);
+            changeBookAmountStatement.setInt(2, id);
+            return changeBookAmountStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return 0;
+
+	}
+	
+	public static int changeAccountBalance(Connection connection, int id, Double amount) {
+        String changeAmountQuery = "UPDATE accounts SET balance=? WHERE id=?;";
+        try (PreparedStatement changeBookAmountStatement = connection.prepareStatement(changeAmountQuery)) {
+            changeBookAmountStatement.setDouble(1, amount);
+            changeBookAmountStatement.setInt(2, id);
+            return changeBookAmountStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return 0;
+    } 
 
 }

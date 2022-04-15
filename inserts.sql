@@ -48,9 +48,25 @@ VALUES ('1111111111111111', '12/12', '205', 4);
 
 # PaymentTypes inserts
 INSERT INTO payment_types(name_en, name_ua)
-VALUES ('Communal services', 'Комунальні послуги');
+VALUES ('Public utilities', 'Комунальні послуги');
 INSERT INTO payment_types(name_en, name_ua)
-VALUES ('Replenishment of mobile account', 'Поповнення мобільного рахунку');
+VALUES ('Mobile communications', 'Поповнення мобільного');
+INSERT INTO payment_types(name_en, name_ua)
+VALUES ('Help for Ukrainians', 'Допомога українцям');
+INSERT INTO payment_types(name_en, name_ua)
+VALUES ('Internet', 'Інтернет');
+INSERT INTO payment_types(name_en, name_ua)
+VALUES ('Television', 'Телебачення');
+INSERT INTO payment_types(name_en, name_ua)
+VALUES ('Distribution', 'Дистрибуція');
+INSERT INTO payment_types(name_en, name_ua)
+VALUES ('Security service', 'Охорона');
+INSERT INTO payment_types(name_en, name_ua)
+VALUES ('Kindergartens', 'Дитячі садки');
+INSERT INTO payment_types(name_en, name_ua)
+VALUES ('Transport', 'Транспорт');
+INSERT INTO payment_types(name_en, name_ua)
+VALUES ('Games', 'Ігри');
 
 # Payment_status inserts
 INSERT INTO payment_statuses(name_en, name_ua)

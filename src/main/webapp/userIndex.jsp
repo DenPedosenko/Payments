@@ -1,3 +1,5 @@
+<%@page import="com.epam.data.dao.AccountStatusDao"%>
+<%@page import="com.epam.data.model.AccountStatus"%>
 <%@page import="com.mysql.cj.conf.ConnectionUrlParser.Pair"%>
 <%@page import="java.util.Locale"%>
 <%@page import="java.util.ResourceBundle"%>
@@ -37,8 +39,6 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 								key="header.operations" /></a></li>
 					<li class="nav-item"><a class="nav-link" href="./accounts"><fmt:message
 								key="header.accounts" /></a></li>
-					<li class="nav-item"><a class="nav-link" href="./cards"><fmt:message
-								key="header.cards" /></a></li>
 				</ul>
 			</div>
 			<div class="btn-group">
@@ -69,10 +69,79 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 				+ bundle.getString("cards.balance") + " " + card.getAccount().getBalance() + "</h5>\n"
 				+ "<div class=\"card-text\"><h3>" + card.getCardNumber().replaceAll("(.{4})", "$0 ").trim()
 				+ "</h3></div>\n" + "<div class=\"hstack mb-2\">\n<div class=\"card-text me-1\">" + card.getExpDate()
-				+ "</div>\n <div class=\"vr\"></div>\n <div class=\"card-text ms-1\">" + card.getCvv() + "</div>\n</div>"
-				+ "<a href=\"#\" class=\"stretched-link\"></a>" + " <a href=\"#\" class=\"btn btn-primary me-3\">"
-				+ bundle.getString("general.add_funds") + "</a>" + " <a href=\"#\" class=\"btn btn-secondary\">"
-				+ bundle.getString("general.block") + "</a>" + " \n</div>" + "</div>\n" + "  </div>\n" + "");
+				+ "</div>\n <div class=\"vr\"></div>\n <div class=\"card-text ms-1\">" + card.getCvv() + "</div>\n</div>");
+				if(card.getAccount().getAccountStatus().getId() == 1){
+					out.print( " <button type=\"button\" href=\"#\" class=\"btn btn-primary me-3\" data-bs-toggle=\"modal\" data-bs-target=\"#addFundsModal"+card.getId()+"\">"+ bundle.getString("general.add_funds") + "</button>" 
+						+ " <button href=\"#\" class=\"btn btn-danger\" data-bs-toggle=\"modal\" data-bs-target=\"#blockCardModal"+card.getId()+"\">"+ bundle.getString("general.block") + "</button>" );
+				} else {
+					out.print("<button href=\"#\" class=\"btn btn-secondary\" data-bs-toggle=\"modal\" data-bs-target=\"#unblockCardModal"+card.getId()+"\">"+ bundle.getString("general.unblock") + "</button>" );						
+				}
+				
+				out.print(" \n</div>" 
+				+ "</div>\n" 
+				+ " </div>\n"
+				+	"<div class=\"modal fade\" id=\"addFundsModal"+card.getId()+"\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n"
+				+ "  <div class=\"modal-dialog\">\r\n"
+				+ "   <form action=\"?accountId="+card.getAccount().getId()+"\" method=\"post\">\r\n"
+				+ "    <div class=\"modal-content\">\r\n"
+				+ "      <div class=\"modal-header\">\r\n"
+				+ "        <h5 class=\"modal-title\" id=\"exampleModalLabel\">"+bundle.getString("general.add_funds")+"</h5>\r\n"
+				+ "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\r\n"
+				+ "      </div>\r\n"
+				+ "      <div class=\"modal-body\">\r\n"
+				+ "			<div class=\"mb-3\">\r\n"
+				+ "    			<label for=\"amount_funds\" class=\"form-label\">"+bundle.getString("general.add_funds_text")+"</label>\r\n"
+				+ "  			<input type=\"number\" class=\"form-control\" step=\"0.01\" aria-label=\"Amount (to the nearest dollar)\" name=\"amount\" required>\r\n"
+				+ "  		</div>"
+				+ "      </div>\r\n"
+				+ "      <div class=\"modal-footer\">\r\n"
+				+ "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">"+bundle.getString("button.cancel")+"</button>\r\n"
+				+ "        <input type=\"submit\" class=\"btn btn-primary\"   name=\"continue\" value="+bundle.getString("button.continue")+">"
+				+ "      </div>\r\n"
+				+ "    </div>\r\n"
+				+ "   </form>\r\n"
+				+ "  </div>\r\n"
+				+ "</div>"
+				+	"<div class=\"modal fade\" id=\"blockCardModal"+card.getId()+"\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n"
+				+ "  <div class=\"modal-dialog\">\r\n"
+				+ "   <form action=\"?accountId="+card.getAccount().getId()+"\" method=\"post\">\r\n"
+				+ "    <div class=\"modal-content\">\r\n"
+				+ "      <div class=\"modal-header\">\r\n"
+				+ "        <h5 class=\"modal-title\" id=\"exampleModalLabel\">"+bundle.getString("cards.block_header")+"</h5>\r\n"
+				+ "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\r\n"
+				+ "      </div>\r\n"
+				+ "      <div class=\"modal-body\">\r\n"
+				+ "        <p>"+bundle.getString("cards.block_text")+"</p>"
+				+ "         <h4>"+card+"</h4>"
+				+ "      </div>\r\n"
+				+ "      <div class=\"modal-footer\">\r\n"
+				+ "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">"+bundle.getString("button.no")+"</button>\r\n"
+				+ "        <input type=\"submit\" class=\"btn btn-primary\"   name=\"block\" value="+bundle.getString("button.yes")+">"
+				+ "      </div>\r\n"
+				+ "    </div>\r\n"
+				+ "   </form>\r\n"
+				+ "  </div>\r\n"
+				+ "</div>"
+				+	"<div class=\"modal fade\" id=\"unblockCardModal"+card.getId()+"\" tabindex=\"-1\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\r\n"
+				+ "  <div class=\"modal-dialog\">\r\n"
+				+ "   <form action=\"?accountId="+card.getAccount().getId()+"\" method=\"post\">\r\n"
+				+ "    <div class=\"modal-content\">\r\n"
+				+ "      <div class=\"modal-header\">\r\n"
+				+ "        <h5 class=\"modal-title\" id=\"exampleModalLabel\">"+bundle.getString("cards.block_header")+"</h5>\r\n"
+				+ "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\r\n"
+				+ "      </div>\r\n"
+				+ "      <div class=\"modal-body\">\r\n"
+				+ "        <p>"+bundle.getString("cards.block_text")+"</p>"
+				+ "         <h4>"+card+"</h4>"
+				+ "      </div>\r\n"
+				+ "      <div class=\"modal-footer\">\r\n"
+				+ "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">"+bundle.getString("button.no")+"</button>\r\n"
+				+ "        <input type=\"submit\" class=\"btn btn-primary\"   name=\"unblock\" value="+bundle.getString("button.yes")+">"
+				+ "      </div>\r\n"
+				+ "    </div>\r\n"
+				+ "   </form>\r\n"
+				+ "  </div>\r\n"
+				+ "</div>");
 			}
 			%>
 		</div>
@@ -107,28 +176,27 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 		List<UserAccount> accounts = (List<UserAccount>) request.getAttribute("accounts");
 		for(UserAccount account: accounts){
 			if(account.getId() == payment.getUserAccount().getId()){
-				out.print("  <option value="+account.getId()+"\" selected>"+account.getName()+"</option>\r\n");
+				out.print("  <option value="+account.getId()+" selected>"+account.getName()+"</option>\r\n");
 			} else {
-				out.print("  <option value="+account.getId()+"\">"+account.getName()+"</option>\r\n");
+				out.print("  <option value="+account.getId()+">"+account.getName()+"</option>\r\n");
 			}		
 		}
 		out.print("</select>"
 		+ "		</div>\r\n"
 		+ "	<label for=\"basic-url\" class=\"form-label\">"+bundle.getString("payment.recipient")+"</label>\r\n"
 		+ "	<div class=\"input-group mb-3\">\r\n"
-		+"		<select class=\"form-select\" name=\"payment_type\" aria-label=\"Default select example\" disabled>\r\n"
-		+ "  		<option value="+payment.getPaymentType().getId()+"\" selected>"+payment.getPaymentType().getName()+"</option>\r\n"					
+		+"		<select class=\"form-select\" name=\"payment_type\" aria-label=\"Default select example\">\r\n"
+		+ "  		<option value="+payment.getPaymentType().getId()+" selected>"+payment.getPaymentType().getName()+"</option>\r\n"					
 		+"		</select>"
 		+ "	</div>\r\n"
 		+ "<div class=\"input-group mb-3\">\r\n"
 		+ "  <span class=\"input-group-text\">$</span>\r\n"
-		+ "  <input type=\"text\" class=\"form-control\" aria-label=\"Amount (to the nearest dollar)\" value="+payment.getAmount()+">\r\n"
-		+ "  <span class=\"input-group-text\">.00</span>\r\n"
+		+ "  <input type=\"number\" class=\"form-control\" step=\"0.01\" value=\""+payment.getAmount()+"\" name=\"amount\" required>\r\n"
 		+ "    </div>"
 		+ "      </div>\r\n"
 		+ "      <div class=\"modal-footer\">\r\n"
-		+ "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">Close</button>\r\n"
-		+ "        <input type=\"submit\" class=\"btn btn-primary\" data-bs-dismiss=\"modal\" name=\"continue\" value="+bundle.getString("button.continue")+">"
+		+ "        <input type=\"submit\" class=\"btn btn-secondary\"  name=\"save\" value="+bundle.getString("button.save")+">"
+		+ "        <input type=\"submit\" class=\"btn btn-primary\"   name=\"continue\" value="+bundle.getString("button.continue")+">"
 		+ "      </div>\r\n"
 		+ "    </div>\r\n"
 		+ "   </form>"
