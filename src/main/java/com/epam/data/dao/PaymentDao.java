@@ -23,7 +23,7 @@ public class PaymentDao {
 
 	public static Logger logger = Logger.getLogger("PaymentsDao");
 
-	public static Map<String, List<Payment>> getUserPayments(Connection connection, User user, String language) {
+	public static Map<String, List<Payment>> getUserPaymentsCollectedByDate(Connection connection, User user, String language) {
 		Map<String, List<Payment>> payments = new HashMap<>();
 		Payment payment = null;
 		String getCardsQuery = "SELECT * FROM Payments WHERE user_id = ?;";
@@ -34,6 +34,24 @@ public class PaymentDao {
 			while (resultSet.next()) {
 				payment = createPayment(connection, resultSet, user, language);
 				putPayment(payments, payment);
+			}
+		} catch (SQLException e) {
+			logger.info(e.getMessage());
+		}
+		return payments;
+	}
+	
+	public static List<Payment> getUserPayments(Connection connection, User user, String language) {
+		List<Payment> payments = new ArrayList<>();
+		Payment payment = null;
+		String getCardsQuery = "SELECT * FROM Payments WHERE user_id = ?;";
+
+		try (PreparedStatement statement = connection.prepareStatement(getCardsQuery)) {
+			statement.setInt(1, user.getId());
+			ResultSet resultSet = statement.executeQuery();
+			while (resultSet.next()) {
+				payment = createPayment(connection, resultSet, user, language);
+				payments.add(payment);
 			}
 		} catch (SQLException e) {
 			logger.info(e.getMessage());
