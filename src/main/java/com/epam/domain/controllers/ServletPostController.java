@@ -4,37 +4,52 @@ import java.sql.Connection;
 import java.util.Arrays;
 
 public enum ServletPostController {
-		LoginController("/login") {
-			@Override
-			public PostController getController(Connection connection) {
-				return Login.getIntsance(connection);
+	MainController("/") {
 
-			}
-		},
-		RegistrationController("/registration") {
-			@Override
-			public PostController getController(Connection connection) {
-				return Registration.getInstance(connection);
+		@Override
+		public PostController getControllerInstance(Connection connection) {
+			return Main.getInstance(connection);
 
-			}
-		};
-
-		private String route;
-
-		public String getRoute() {
-			return route;
 		}
 
-		private ServletPostController(String route) {
-			this.route = route;
-		}
+	},
+	LoginController("/login") {
+		@Override
+		public PostController getControllerInstance(Connection connection) {
+			return Login.getIntsance(connection);
 
-		public abstract PostController getController(Connection connection);
-
-		public static ServletPostController findRoute(String route) throws IllegalArgumentException {
-			return Arrays.stream(ServletPostController.values()).filter(v -> v.getRoute().equals(route)).findFirst()
-					.orElseThrow(() -> new IllegalArgumentException(
-							String.format("Unknown ServletController.route: '%s'", route)));
 		}
-	
+	},
+	PaymentsController("/payments") {
+		@Override
+		public PostController getControllerInstance(Connection connection) {
+			return Payments.getInstance(connection);
+		}
+	},
+	RegistrationController("/registration") {
+		@Override
+		public PostController getControllerInstance(Connection connection) {
+			return Registration.getInstance(connection);
+
+		}
+	};
+
+	private String route;
+
+	public String getRoute() {
+		return route;
+	}
+
+	private ServletPostController(String route) {
+		this.route = route;
+	}
+
+	public abstract PostController getControllerInstance(Connection connection);
+
+	public static ServletPostController findRoute(String route) throws IllegalArgumentException {
+		return Arrays.stream(ServletPostController.values()).filter(v -> v.getRoute().equals(route)).findFirst()
+				.orElseThrow(() -> new IllegalArgumentException(
+						String.format("Unknown ServletController.route: '%s'", route)));
+	}
+
 }

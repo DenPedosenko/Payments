@@ -1,6 +1,7 @@
 package com.epam.domain.servlets;
 
 import java.io.IOException;
+import org.apache.log4j.Logger;
 
 import org.apache.log4j.BasicConfigurator;
 import java.sql.Connection;
@@ -14,12 +15,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.epam.data.dao.PaymentsDB;
-
 import com.epam.domain.controllers.ServletGetController;
 import com.epam.domain.controllers.ServletPostController;
 
 @WebServlet(value = "/", name = "mainPage")
 public class MainServlet extends HttpServlet {
+	public static Logger logger = Logger.getLogger(MainServlet.class);
+
 	private Connection connection = PaymentsDB.getConnection();
 	private static final long serialVersionUID = 2684944235775031753L;
 
@@ -51,14 +53,23 @@ public class MainServlet extends HttpServlet {
 		String path = req.getServletPath();
 		boolean isLogget = isLoggetIn(req);
 		String language = getLanguage(req, resp);
-		ServletGetController.findRoute(path).getController(connection).get(req, resp, language, isLogget);
+		try {
+			ServletGetController.findRoute(path).getControllerInstance(connection).get(req, resp, language, isLogget);
+		} catch (IllegalArgumentException e) {
+			resp.getWriter().write("Error");
+		}
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getServletPath();
 		String language = getLanguage(req, resp);
-		ServletPostController.findRoute(path).getController(connection).post(req, resp, language);
+		try {
+			ServletPostController.findRoute(path).getControllerInstance(connection).post(req, resp, language);
+		} catch (IllegalArgumentException e) {
+			resp.getWriter().write("Error");
+		}
+		
 	}
 
 	@Override

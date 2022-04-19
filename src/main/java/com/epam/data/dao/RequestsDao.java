@@ -34,7 +34,21 @@ public class RequestsDao {
 			logger.error(e.getMessage());
 		}
 		return requests;
-
+	}
+	
+	public static Request getRequestById(Connection connection, String language, int id) {
+		String selectQuery = "SELECT * FROM requests WHERE id=?";
+		Request request = null;
+		try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+			selectStatement.setInt(1, id);
+			ResultSet resultSet = selectStatement.executeQuery();
+			while (resultSet.next()) {
+				request = createRequest(resultSet, connection, language);
+			}
+		} catch (SQLException e) {
+			logger.info(e.getMessage());
+		}
+		return request;
 	}
 
 	public static List<Request> getRequests(Connection connection, String language) {
@@ -61,6 +75,51 @@ public class RequestsDao {
 				AccountsDao.getUserAccountById(connection, resultSet.getInt("account_id"), user, language),
 				LocalDateTime.parse(resultSet.getString("creating_date"), Utils.getDateTimeFormater(language)));
 
+	}
+	
+	public static int createNewRequest(Connection connection, int userId, int accountId, int requestStatusId) {
+		if (checkIfRequestAlreadyExists(connection, userId, accountId)) {
+			logger.debug(0);
+			return 0;
+		}
+		String insertQuery = "INSERT INTO requests(user_id, account_id, creating_date,  request_status_id)\n"
+				+ "VALUES (?, ?, NOW(), ?);";
+		try (PreparedStatement insertUserStatement = connection.prepareStatement(insertQuery)) {
+			insertUserStatement.setInt(1, userId);
+			insertUserStatement.setInt(2, accountId);
+			insertUserStatement.setInt(3, requestStatusId);
+			return insertUserStatement.executeUpdate();
+		} catch (SQLException e) {
+			logger.info(e.getMessage());
+		}
+		return 0;
+	}
+	
+	public static boolean checkIfRequestAlreadyExists(Connection connection, int userId, int accountId) {
+		String selectQuery = "SELECT * FROM requests where user_id=? and account_id=? and request_status_id=1;";
+		try (PreparedStatement selectStatement = connection.prepareStatement(selectQuery)) {
+			selectStatement.setInt(1, userId);
+			selectStatement.setInt(2, accountId);
+			ResultSet resultSet = selectStatement.executeQuery();
+			if (resultSet.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			logger.error(e.getMessage());
+		}
+		return false;
+	}
+	
+	public static int changeRequsetStatus(Connection connection, int id, int statusId) {
+        String changeStatusQuery = "UPDATE requests SET request_status_id=? WHERE id=?;";
+        try (PreparedStatement changeStatusStatement = connection.prepareStatement(changeStatusQuery)) {
+            changeStatusStatement.setInt(1, statusId);
+            changeStatusStatement.setInt(2, id);
+            return changeStatusStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return 0;
 	}
 
 }

@@ -28,10 +28,9 @@ import com.epam.data.model.PaymentType;
 import com.epam.data.model.Request;
 import com.epam.data.model.User;
 import com.epam.data.model.UserAccount;
-import com.epam.data.model.UserType;
 
-public class Main implements GetController {
-	private  Connection connection;
+public class Main implements GetController, PostController {
+	private Connection connection;
 	private static Main instance;
 	private User user;
 	private List<Request> requests;
@@ -40,7 +39,8 @@ public class Main implements GetController {
 	private List<Card> cards;
 	private Map<String, List<Payment>> payments;
 	private boolean isAdmin = false;
-		
+	public static Logger logger = Logger.getLogger(Main.class);
+
 	private static HashMap<String, String> statuses = new HashMap<String, String>() {
 		private static final long serialVersionUID = 1L;
 		{
@@ -48,8 +48,6 @@ public class Main implements GetController {
 			put("sent_ua", "Відправлений");
 		}
 	};
-	
-	public static Logger logger = Logger.getLogger(Main.class);
 
 	public void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLogget)
 			throws ServletException, IOException {
@@ -57,6 +55,16 @@ public class Main implements GetController {
 		if (!isLogget) {
 			resp.sendRedirect(req.getContextPath() + "/login");
 		} else {
+			if(req.getParameter("dismissRequest") != null) {
+				int requestId = Integer.parseInt(req.getParameter("dismissRequest"));
+				RequestsDao.changeRequsetStatus(connection, requestId, 2);
+			}
+			if(req.getParameter("acceptRequest") != null) {
+				int requestId = Integer.parseInt(req.getParameter("acceptRequest"));
+				Request request = RequestsDao.getRequestById(connection, language, requestId);
+				AccountsDao.changeAccountStatus(connection, request.getAccount().getId(), 1);
+				RequestsDao.changeRequsetStatus(connection, requestId, 2);
+			}
 			int user_id = (int) req.getSession().getAttribute("user_id");
 			initData(language, user_id);
 			setAttributes(req);
@@ -66,8 +74,8 @@ public class Main implements GetController {
 	}
 
 	private void setAttributes(HttpServletRequest req) {
-		if(isAdmin) {
-			req.setAttribute("requests",requests);
+		if (isAdmin) {
+			req.setAttribute("requests", requests);
 		} else {
 			req.setAttribute("payment_types", paymentTypes);
 			req.setAttribute("cards", cards);
@@ -79,19 +87,19 @@ public class Main implements GetController {
 
 	private void initData(String language, int user_id) {
 		user = UserDao.getUser(connection, user_id, language);
-		if(isAdmin = user.getUserType().equals(UserTypeDao.getTypeById(connection, 2, language))) {
+		if (isAdmin = user.getUserType().equals(UserTypeDao.getTypeById(connection, 2, language))) {
 			requests = RequestsDao.getActiveRequests(connection, language);
-			logger.debug(requests);	
 		} else {
 			paymentTypes = PaymentTypeDao.getTypes(connection, language);
 			accounts = AccountsDao.getUserAccounts(connection, user, language);
 			cards = CardsDao.getAccountsCards(connection, accounts);
-			PaymentStatus status = PaymentStatusDao.getPaymentStatusByName(connection, statuses.get("sent_"+language), language);
+			PaymentStatus status = PaymentStatusDao.getPaymentStatusByName(connection, statuses.get("sent_" + language),
+					language);
 			payments = PaymentDao.getUserPaymentsByStatus(connection, user, status, language);
 		}
 	}
 
-	public  Connection getConnection() {
+	public Connection getConnection() {
 		return connection;
 	}
 
@@ -100,12 +108,38 @@ public class Main implements GetController {
 	}
 
 	public static Main getInstance(Connection connection) {
-		if(instance == null) {
+		if (instance == null) {
 			instance = new Main(connection);
 		}
 		return instance;
 	}
-	public  void setConnection(Connection connection) {
+
+	public void setConnection(Connection connection) {
 		this.connection = connection;
+	}
+
+	@Override
+	public void post(HttpServletRequest req, HttpServletResponse resp, String language)
+			throws IOException, ServletException {
+		int accountId = Integer.parseInt(req.getParameter("accountId"));
+		int user_id = (int) req.getSession().getAttribute("user_id");
+		initData(language, user_id);
+		if (req.getParameter("block") != null) {
+			AccountsDao.changeAccountStatus(connection, accountId, 2);
+			resp.sendRedirect(req.getContextPath());
+		} 
+		if (req.getParameter("continue") != null) {	
+			double amount = Double.parseDouble(req.getParameter("amount"));
+			UserAccount account = AccountsDao.getUserAccountById(connection, accountId, user, language);
+			AccountsDao.changeAccountBalance(connection, accountId,account.getBalance() + amount);
+			resp.sendRedirect(req.getContextPath());
+		} 
+		if(req.getParameter("unblock") != null) {
+			if(RequestsDao.createNewRequest(connection, user.getId(),  accountId, 1) == 0) {
+				resp.sendRedirect(req.getContextPath() + "?operationStatus=alreadyCreated");
+			}else {
+				resp.sendRedirect(req.getContextPath() + "?operationStatus=unblockedRequestSent");
+			}
+		}
 	}
 }

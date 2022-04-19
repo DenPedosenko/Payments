@@ -4,8 +4,10 @@
 <%@page import="java.util.ResourceBundle"%>
 <%@page import="java.util.List"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%
 ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String) request.getAttribute("language")));
+List<Request> userRequests = (List<Request>) request.getAttribute("requests");
 %>
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="translate" />
@@ -51,7 +53,14 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 			</div>
 		</div>
 	</nav>
-		<h1>
+	<c:choose>
+    <c:when test="${requests.size() == 0}">
+    <h1 class="text-center">
+    	<fmt:message key="admin.no_requests" />
+    </h1>
+    </c:when>
+    <c:otherwise>
+     <h1>
 		<fmt:message key="admin.header" />
 	</h1>
 	<div class="container">
@@ -66,15 +75,14 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
   			</thead>
   			<tbody>
 			<%
-			List<Request> userRequests = (List<Request>) request.getAttribute("requests");
 			for (Request userRequest : userRequests) {
 			out.print("  <tr>\r\n"
 					+ "      <th scope=\"row\">"+DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(userRequest.getDate())+"</th>\r\n"
 					+ "      <td>"+userRequest.getUser().getUserName()+"</td>\r\n"
 					+ "      <td>"+userRequest.getAccount().getName()+"</td>\r\n"
 					+ "      <td><div class=\"btn-group\">\r\n"
-					+ "  			<a href=\"#\" class=\"btn btn-danger \" aria-current=\"page\">"+bundle.getString("admin.dismiss")+"</a>\r\n"
-					+ "  			<a href=\"#\" class=\"btn btn-primary\">"+bundle.getString("admin.accept")+"</a>\r\n"
+					+ "  			<a href=\"?dismissRequest="+userRequest.getId()+"\" class=\"btn btn-danger \" aria-current=\"page\">"+bundle.getString("admin.dismiss")+"</a>\r\n"
+					+ "  			<a href=\"?acceptRequest="+userRequest.getId()+"\" class=\"btn btn-primary\">"+bundle.getString("admin.accept")+"</a>\r\n"
 					+ "			</div>"
 					+"		</td>\r\n"
 					+ "  </tr>");
@@ -83,4 +91,6 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 			</tbody>
 		</table>	
 	</div>
+    </c:otherwise>
+	</c:choose>		
 </div>
