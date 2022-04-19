@@ -46,8 +46,6 @@ String operationStatus = request.getParameter("operationStatus")!= null?request.
 								key="header.operations" /></a></li>
 					<li class="nav-item"><a class="nav-link" href="./accounts"><fmt:message
 								key="header.accounts" /></a></li>
-					<li class="nav-item"><a class="nav-link" href="./cards"><fmt:message
-								key="header.cards" /></a></li>
 				</ul>
 			</div>
 			<div class="btn-group">
@@ -108,7 +106,9 @@ String operationStatus = request.getParameter("operationStatus")!= null?request.
 				+ "			<select class=\"form-select\" name=\"account\" aria-label=\"Default select example\">\r\n");
 				List<Card> cards = (List<Card>) request.getAttribute("cards");
 				for(Card card: cards){
-						out.print("  <option value="+card.getId()+">"+card+"</option>\r\n");		
+					if(card.getAccount().getAccountStatus().getId() == 1) {
+						out.print("  <option value="+card.getId()+">"+card+"</option>\r\n");	
+					}	
 				}
 				out.print("</select>"
 				+ "		</div>\r\n"

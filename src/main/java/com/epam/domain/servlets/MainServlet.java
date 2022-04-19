@@ -58,7 +58,6 @@ public class MainServlet extends HttpServlet {
 		} catch (IllegalArgumentException e) {
 			resp.getWriter().write("Error");
 		}
-		
 	}
 
 	@Override

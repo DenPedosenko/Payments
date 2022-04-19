@@ -11,6 +11,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%
 ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String) request.getAttribute("language")));
+String operationStatus = request.getParameter("operationStatus")!= null?request.getParameter("operationStatus"):"";
 %>
 <fmt:setLocale value="${language}" />
 <fmt:setBundle basename="translate" />
@@ -56,6 +57,16 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 				</ul>
 			</div>
 	</nav>
+		<% 
+	switch(operationStatus){
+	case "alreadyCreated":
+		out.print("<h2 class=\"text-center text-danger\">"+bundle.getString("operations.already_created")+"</h2>");
+		break;
+	case "unblockedRequestSent":
+		out.print("<h2 class=\"text-center text-success\">"+bundle.getString("operations.unblocked_request_sent")+"</h2>");
+		break;
+	} 
+	%>
 	<h1>
 		<fmt:message key="wigets.header" />
 	</h1>
@@ -127,12 +138,11 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 				+ "   <form action=\"?accountId="+card.getAccount().getId()+"\" method=\"post\">\r\n"
 				+ "    <div class=\"modal-content\">\r\n"
 				+ "      <div class=\"modal-header\">\r\n"
-				+ "        <h5 class=\"modal-title\" id=\"exampleModalLabel\">"+bundle.getString("cards.block_header")+"</h5>\r\n"
+				+ "        <h5 class=\"modal-title\" id=\"exampleModalLabel\">"+bundle.getString("cards.unblock_header")+"</h5>\r\n"
 				+ "        <button type=\"button\" class=\"btn-close\" data-bs-dismiss=\"modal\" aria-label=\"Close\"></button>\r\n"
 				+ "      </div>\r\n"
 				+ "      <div class=\"modal-body\">\r\n"
-				+ "        <p>"+bundle.getString("cards.block_text")+"</p>"
-				+ "         <h4>"+card+"</h4>"
+				+ "        <p>"+bundle.getString("cards.unblock_text")+"</p>"
 				+ "      </div>\r\n"
 				+ "      <div class=\"modal-footer\">\r\n"
 				+ "        <button type=\"button\" class=\"btn btn-secondary\" data-bs-dismiss=\"modal\">"+bundle.getString("button.no")+"</button>\r\n"
@@ -175,11 +185,13 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 		+ "			<select class=\"form-select\" name=\"account\" aria-label=\"Default select example\">\r\n");
 		List<UserAccount> accounts = (List<UserAccount>) request.getAttribute("accounts");
 		for(UserAccount account: accounts){
-			if(account.getId() == payment.getUserAccount().getId()){
-				out.print("  <option value="+account.getId()+" selected>"+account.getName()+"</option>\r\n");
-			} else {
-				out.print("  <option value="+account.getId()+">"+account.getName()+"</option>\r\n");
-			}		
+			if(account.getAccountStatus().getId() == 1){
+				if(account.getId() == payment.getUserAccount().getId()){
+					out.print("  <option value="+account.getId()+" selected>"+account.getName()+"</option>\r\n");
+				} else {
+					out.print("  <option value="+account.getId()+">"+account.getName()+"</option>\r\n");
+				}	
+			}	
 		}
 		out.print("</select>"
 		+ "		</div>\r\n"

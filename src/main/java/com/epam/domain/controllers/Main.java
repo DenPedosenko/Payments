@@ -55,6 +55,16 @@ public class Main implements GetController, PostController {
 		if (!isLogget) {
 			resp.sendRedirect(req.getContextPath() + "/login");
 		} else {
+			if(req.getParameter("dismissRequest") != null) {
+				int requestId = Integer.parseInt(req.getParameter("dismissRequest"));
+				RequestsDao.changeRequsetStatus(connection, requestId, 2);
+			}
+			if(req.getParameter("acceptRequest") != null) {
+				int requestId = Integer.parseInt(req.getParameter("acceptRequest"));
+				Request request = RequestsDao.getRequestById(connection, language, requestId);
+				AccountsDao.changeAccountStatus(connection, request.getAccount().getId(), 1);
+				RequestsDao.changeRequsetStatus(connection, requestId, 2);
+			}
 			int user_id = (int) req.getSession().getAttribute("user_id");
 			initData(language, user_id);
 			setAttributes(req);
@@ -79,7 +89,6 @@ public class Main implements GetController, PostController {
 		user = UserDao.getUser(connection, user_id, language);
 		if (isAdmin = user.getUserType().equals(UserTypeDao.getTypeById(connection, 2, language))) {
 			requests = RequestsDao.getActiveRequests(connection, language);
-			logger.debug(requests);
 		} else {
 			paymentTypes = PaymentTypeDao.getTypes(connection, language);
 			accounts = AccountsDao.getUserAccounts(connection, user, language);
@@ -113,17 +122,24 @@ public class Main implements GetController, PostController {
 	public void post(HttpServletRequest req, HttpServletResponse resp, String language)
 			throws IOException, ServletException {
 		int accountId = Integer.parseInt(req.getParameter("accountId"));
+		int user_id = (int) req.getSession().getAttribute("user_id");
+		initData(language, user_id);
 		if (req.getParameter("block") != null) {
 			AccountsDao.changeAccountStatus(connection, accountId, 2);
-			resp.sendRedirect(req.getContextPath() + "?operationStatus=blocked");
-		} else if (req.getParameter("continue") != null) {
-			
-			double amount = Double.parseDouble(req.getParameter("amount"));
-			AccountsDao.changeAccountBalance(connection, accountId, amount);
 			resp.sendRedirect(req.getContextPath());
-		} else if(req.getParameter("unblock") != null) {
-			AccountsDao.changeAccountStatus(connection, accountId, 1);
-			resp.sendRedirect(req.getContextPath() + "?operationStatus=unblocked");
+		} 
+		if (req.getParameter("continue") != null) {	
+			double amount = Double.parseDouble(req.getParameter("amount"));
+			UserAccount account = AccountsDao.getUserAccountById(connection, accountId, user, language);
+			AccountsDao.changeAccountBalance(connection, accountId,account.getBalance() + amount);
+			resp.sendRedirect(req.getContextPath());
+		} 
+		if(req.getParameter("unblock") != null) {
+			if(RequestsDao.createNewRequest(connection, user.getId(),  accountId, 1) == 0) {
+				resp.sendRedirect(req.getContextPath() + "?operationStatus=alreadyCreated");
+			}else {
+				resp.sendRedirect(req.getContextPath() + "?operationStatus=unblockedRequestSent");
+			}
 		}
 	}
 }
