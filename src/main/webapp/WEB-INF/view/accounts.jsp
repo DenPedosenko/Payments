@@ -67,7 +67,7 @@ String orderBy = (String) request.getAttribute("orderBy");
 			</div>
 		</nav>
 		<h1>
-			<fmt:message key="header.operations" />
+			<fmt:message key="header.accounts" />
 		</h1>
 		<div class="container">
 			<table class="table table-sm align-middle mt-2">
