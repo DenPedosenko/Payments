@@ -20,8 +20,8 @@ import com.epam.data.dao.UserDao;
 import com.epam.data.model.Payment;
 import com.epam.data.model.User;
 
-public class Operations implements GetController, PostController {
-	public static Logger logger = Logger.getLogger(Payments.class);
+public class Operations implements GetController {
+	public static Logger logger = Logger.getLogger(Operations.class);
 	private Connection connection;
 	private static Operations instance;
 	private User user;
@@ -42,18 +42,11 @@ public class Operations implements GetController, PostController {
 		this.connection = connection;
 	}
 
-	@Override
-	public void post(HttpServletRequest req, HttpServletResponse resp, String language)
-			throws IOException, ServletException {
-		// TODO Auto-generated method stub
-
-	}
 
 	@Override
 	public void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLogget)
 			throws ServletException, IOException {
 		req.setAttribute("language", language);
-		logger.debug(this);
 		if (!isLogget) {
 			resp.sendRedirect(req.getContextPath() + "/login");
 		} else {
@@ -140,7 +133,6 @@ public class Operations implements GetController, PostController {
             	operations.sort((payment, p1) -> Integer.compare(p1.getPaymentStatus().getId(), payment.getPaymentStatus().getId()));
             }
         }
-		
 	}
 
 	private void initData(String language, int user_id) {

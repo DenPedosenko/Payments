@@ -40,6 +40,13 @@ public enum ServletGetController {
 		}
 
 	},
+	AccountsController("/accounts") {
+		@Override
+		public GetController getControllerInstance(Connection connection) {
+			return Accounts.getInstance(connection);
+		}
+		
+	},
 	LogoutController("/logout") {
 		@Override
 		public GetController getControllerInstance(Connection connection) {
