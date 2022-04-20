@@ -105,7 +105,6 @@ public class Payments implements GetController, PostController {
 			RequestDispatcher view = req.getRequestDispatcher("WEB-INF/view/payments.jsp");
 			view.forward(req, resp);
 		}
-
 	}
 
 	private void setAttributes(HttpServletRequest req) {

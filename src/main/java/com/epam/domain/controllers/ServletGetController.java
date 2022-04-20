@@ -6,13 +6,11 @@ import java.util.Arrays;
 
 public enum ServletGetController {
 	MainController("/") {
-
 		@Override
 		public GetController getControllerInstance(Connection connection) {
 			return Main.getInstance(connection);
 
 		}
-
 	},
 	LoginController("/login") {
 		@Override
@@ -32,6 +30,13 @@ public enum ServletGetController {
 		@Override
 		public GetController getControllerInstance(Connection connection) {
 			return Payments.getInstance(connection);
+		}
+
+	},
+	OperationsController("/operations") {
+		@Override
+		public GetController getControllerInstance(Connection connection) {
+			return Operations.getInstance(connection);
 		}
 
 	},
