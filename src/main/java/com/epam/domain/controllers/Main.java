@@ -52,6 +52,7 @@ public class Main implements GetController, PostController {
 	public void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLogget)
 			throws ServletException, IOException {
 		req.setAttribute("language", language);
+		logger.debug(this);
 		if (!isLogget) {
 			resp.sendRedirect(req.getContextPath() + "/login");
 		} else {
