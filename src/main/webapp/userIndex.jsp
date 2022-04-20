@@ -165,8 +165,8 @@ String operationStatus = request.getParameter("operationStatus")!= null?request.
 	<%
 	Map<String, List<Payment>> payments = (Map<String, List<Payment>>) request.getAttribute("payments");
 	for (String key : payments.keySet()) {
-		out.print("<div class=\"row\">" + "<table class=\"table table-hover\">" + "<thead><tr><th scope=\"col\">" + key
-		+ "</th></tr></thead>" + "<tbody>");
+		out.print("<div class=\"row\">" + "<table class=\"table table-hover\">" + "<thead><tr><th class=\"col-4\" scope=\"col\">" + key
+		+ "</th><th class=\"col-4\" scope=\"col\"></th></tr></thead>" + "<tbody>");
 		for (Payment payment:payments.get(key)){
 		out.print("<tr><td>"+payment.getUserAccount().getName()+"</td>"
 		+ "<td>"+payment.getPaymentType().getName()+"</td><td>"+payment.getPaymentStatus().getName()+"</td><td>"+payment.getAmount()+"</td>"

@@ -15,7 +15,7 @@ ResourceBundle bundle = ResourceBundle.getBundle("translate", new Locale((String
 String language = (String) request.getAttribute("language");
 String ascending = (String) request.getAttribute("ascending");
 String orderBy = (String) request.getAttribute("orderBy");
-
+String operationStatus = request.getParameter("operationStatus")!= null?request.getParameter("operationStatus"):"";
 %>
 <!DOCTYPE html>
 <html>
@@ -70,6 +70,16 @@ String orderBy = (String) request.getAttribute("orderBy");
 		<h1>
 			<fmt:message key="header.operations" />
 		</h1>
+		<%
+		switch (operationStatus) {
+		case "success":
+			out.print("<h2 class=\"text-center text-success\">Operation succeeded</h2>");
+			break;
+		case "error":
+			out.print("<h2 class=\"text-center text-danger\">You do not have enough funds in your account</h2>");
+			break;
+		}
+		%>
 		<div class="container">
 			<table class="table table-sm align-middle mt-2">
 				<thead>
@@ -139,11 +149,46 @@ String orderBy = (String) request.getAttribute("orderBy");
 						<td>${operation.getPaymentType().getName()}</td>
 						<td>${operation.getPaymentStatus().getName()}</td>
 						<td>${operation.getAmount()}</td>
-						<td>sss</td>
+						
+						<c:choose>
+						<c:when test="${operation.getPaymentStatus().getId() == 1}">
+							<td><a class="btn btn-primary" href="<%out.print(request.getContextPath());%>/operations?pay=${operation.getId() }"><fmt:message key="operation.pay"/></a></td>
+						</c:when>
+						<c:otherwise>
+							<td></td>
+						</c:otherwise>
+					</c:choose>
 					</tr>
 					</c:forEach>
 				</tbody>
-			</table>	
+			</table>
+			<nav aria-label="Page navigation">
+				<ul class="pagination justify-content-end">
+					<c:choose>
+						<c:when test="${page == 1}">
+							<li	class="page-item disabled"><span class="page-link">Previous</span></li>
+						</c:when>
+						<c:otherwise>
+							<li	class="page-item"><a class="page-link" href="<%out.print(request.getContextPath());%>/operations?language=${language}&orderBy=${orderBy}&ascending=${ascending}&page=${page-1}">Previous</a></li>
+						</c:otherwise>
+					</c:choose>
+					<c:forEach var="i" begin="1"
+						end="${size%10 == 0?size/10:size/10+1}">
+						<li class="page-item ${page == i?'active':'' }"><a
+							class="page-link" href="<%out.print(request.getContextPath());%>/operations?language=${language}&orderBy=${orderBy}&ascending=${ascending}&page=${i}"><c:out value="${i}" /></a></li>
+					</c:forEach>
+					<c:choose>
+						<c:when test="${page + 1 > (size % 10 == 0 ? size / 10 : size / 10 + 1)}">
+							<li	class="page-item disabled"><span class="page-link">Next</span></li>
+						</c:when>
+						<c:otherwise>
+							<li	class="page-item ">
+								<a class="page-link" href="<%out.print(request.getContextPath());%>/operations?language=${language}&orderBy=${orderBy}&ascending=${ascending}&page=${page+1}">Next</a>
+							</li>
+						</c:otherwise>
+					</c:choose>
+				</ul>
+			</nav>
 		</div>
 	</div>
 </body>
