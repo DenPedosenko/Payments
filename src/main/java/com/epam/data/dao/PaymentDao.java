@@ -120,4 +120,16 @@ public class PaymentDao {
 		}
 		return 0;
 	}
+	
+	public static int changePaymentStatus(Connection connection, int paymentId, int statusId) {
+        String changeAmountQuery = "UPDATE payments SET payment_status_id=? WHERE id=?;";
+        try (PreparedStatement changeAmountStatement = connection.prepareStatement(changeAmountQuery)) {
+            changeAmountStatement.setDouble(1, statusId);
+            changeAmountStatement.setInt(2, paymentId);
+            return changeAmountStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return 0;
+    } 
 }
