@@ -100,7 +100,7 @@ public class PaymentDao {
 		return new Payment(resultSet.getInt("id"),LocalDateTime.parse(resultSet.getString("creating_date"), Utils.getDateTimeFormater(language)),
 				PaymentTypeDao.getPaymentTypeById(connection, resultSet.getInt("payment_type_id"), language),
 				PaymentStatusDao.getPaymentStatusById(connection, resultSet.getInt("payment_status_id"), language),
-				user, AccountsDao.getUserAccountById(connection, resultSet.getInt("account_id"), user, language),
+				user, AccountsDao.getUserAccountById(connection, resultSet.getInt("account_id"), language),
 				resultSet.getDouble("amount"));
 
 	}

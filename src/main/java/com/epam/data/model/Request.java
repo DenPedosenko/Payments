@@ -8,12 +8,14 @@ public class Request {
 	private User user;
 	private UserAccount account;
 	private LocalDateTime date;
+	private RequestStatus status;
 	
-	public Request(int id, User user, UserAccount account, LocalDateTime date) {
+	public Request(int id, User user, UserAccount account, LocalDateTime date, RequestStatus status) {
 		this.id = id;
 		this.user = user;
 		this.account = account;
 		this.date = date;
+		this.setStatus(status);
 	}
 
 	public int getId() {
@@ -48,9 +50,17 @@ public class Request {
 		this.date = date;
 	}
 
+	public RequestStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(RequestStatus status) {
+		this.status = status;
+	}
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(account, date, id, user);
+		return Objects.hash(account, date, id, status, user);
 	}
 
 	@Override
@@ -63,12 +73,13 @@ public class Request {
 			return false;
 		Request other = (Request) obj;
 		return Objects.equals(account, other.account) && Objects.equals(date, other.date) && id == other.id
-				&& Objects.equals(user, other.user);
+				&& Objects.equals(status, other.status) && Objects.equals(user, other.user);
 	}
 
 	@Override
 	public String toString() {
-		return "Request [id=" + id + ", user=" + user + ", account=" + account + ", date=" + date + "]";
+		return "Request [id=" + id + ", user=" + user + ", account=" + account + ", date=" + date + ", status=" + status
+				+ "]";
 	}
 	
 	

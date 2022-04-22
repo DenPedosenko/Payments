@@ -93,8 +93,9 @@ public class Accounts implements GetController {
 
 	private void initData(String language, int user_id) {
 		user = UserDao.getUser(connection, user_id, language);
-		accounts = AccountsDao.getUserAccounts(connection, user, language);
+		accounts = AccountsDao.getUserAccounts(connection, user.getId(), language);
 	}
+	
 	private void orderAccounts(String orderBy, String ascending, List<UserAccount> operations) {
 		logger.debug(ascending + " " +orderBy );
 		if (orderBy.equals("id")) {
