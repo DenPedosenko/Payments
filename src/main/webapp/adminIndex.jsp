@@ -67,10 +67,10 @@ List<Request> userRequests = (List<Request>) request.getAttribute("requests");
 		<table class="table table-sm align-middle">
   			<thead>
     		<tr>
-      			<th scope="col">Date</th>
-      			<th scope="col">User</th>
-      			<th scope="col">Account</th>
-      			<th scope="col">Action</th>
+      			<th scope="col"><fmt:message key="operations.date"/></th>
+      			<th scope="col"><fmt:message key="users.name"/></th>
+      			<th scope="col"><fmt:message key="accounts.account"/></th>
+      			<th scope="col"><fmt:message key="requests.action"/></th>
     		</tr>
   			</thead>
   			<tbody>

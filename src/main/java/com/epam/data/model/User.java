@@ -1,5 +1,6 @@
 package com.epam.data.model;
 
+import java.util.List;
 import java.util.Objects;
 
 public class User {
@@ -8,6 +9,7 @@ public class User {
 	private String lastName;
 	private String email;
 	private String password;
+	private List<UserAccount> accounts;
 	private UserType userType;
 	private UserStatus userStatus;
 
@@ -77,10 +79,25 @@ public class User {
 	public void setId(int id) {
 		this.id = id;
 	}
+	
+	public List<UserAccount> getAccounts() {
+		return accounts;
+	}
+
+	public void setAccounts(List<UserAccount> accounts) {
+		this.accounts = accounts;
+	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", password=" + password + ", accounts=" + accounts + ", userType=" + userType + ", userStatus="
+				+ userStatus + "]";
+	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(email, firstName, id, lastName, password, userStatus, userType);
+		return Objects.hash(accounts, email, firstName, id, lastName, password, userStatus, userType);
 	}
 
 	@Override
@@ -92,15 +109,10 @@ public class User {
 		if (getClass() != obj.getClass())
 			return false;
 		User other = (User) obj;
-		return Objects.equals(email, other.email) && Objects.equals(firstName, other.firstName) && id == other.id
+		return Objects.equals(accounts, other.accounts) && Objects.equals(email, other.email)
+				&& Objects.equals(firstName, other.firstName) && id == other.id
 				&& Objects.equals(lastName, other.lastName) && Objects.equals(password, other.password)
 				&& Objects.equals(userStatus, other.userStatus) && Objects.equals(userType, other.userType);
-	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-				+ ", password=" + password + ", userType=" + userType + ", userStatus=" + userStatus + "]";
 	}
 
 	public String getUserName() {

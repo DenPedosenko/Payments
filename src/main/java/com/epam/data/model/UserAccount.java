@@ -6,14 +6,12 @@ public class UserAccount {
 
 	private int id;
 	private String name;
-	private User user;
 	private double balance;
 	private AccountStatus accountStatus;
 
-	public UserAccount(int id, String name, User user, AccountStatus accountStatus, double balance) {
+	public UserAccount(int id, String name, AccountStatus accountStatus, double balance) {
 		this.id = id;
 		this.name = name;
-		this.user = user;
 		this.accountStatus = accountStatus;
 		this.balance = balance;
 	}
@@ -34,14 +32,6 @@ public class UserAccount {
 		this.name = name;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public AccountStatus getAccountStatus() {
 		return accountStatus;
 	}
@@ -60,7 +50,7 @@ public class UserAccount {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(accountStatus, balance, id, name, user);
+		return Objects.hash(accountStatus, balance, id, name);
 	}
 
 	@Override
@@ -74,12 +64,12 @@ public class UserAccount {
 		UserAccount other = (UserAccount) obj;
 		return Objects.equals(accountStatus, other.accountStatus)
 				&& Double.doubleToLongBits(balance) == Double.doubleToLongBits(other.balance) && id == other.id
-				&& Objects.equals(name, other.name) && Objects.equals(user, other.user);
+				&& Objects.equals(name, other.name) ;
 	}
 
 	@Override
 	public String toString() {
-		return "UserAccount [id=" + id + ", name=" + name + ", user=" + user + ", balance=" + balance
+		return "UserAccount [id=" + id + ", name=" + name + ", balance=" + balance
 				+ ", accountStatus=" + accountStatus + "]";
 	}
 

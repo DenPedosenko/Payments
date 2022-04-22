@@ -72,8 +72,8 @@ public class RequestsDao {
 			throws SQLException {
 		User user = UserDao.getUser(connection, resultSet.getInt("user_id"), language);
 		return new Request(resultSet.getInt("id"), user,
-				AccountsDao.getUserAccountById(connection, resultSet.getInt("account_id"), user, language),
-				LocalDateTime.parse(resultSet.getString("creating_date"), Utils.getDateTimeFormater(language)));
+				AccountsDao.getUserAccountById(connection, resultSet.getInt("account_id"), language),
+				LocalDateTime.parse(resultSet.getString("creating_date"), Utils.getDateTimeFormater(language)), RequestStatusDao.getRequestStatus(connection, language, resultSet.getInt("request_status_id")));
 
 	}
 	

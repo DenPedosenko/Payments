@@ -52,7 +52,6 @@ public class Main implements GetController, PostController {
 	public void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLogget)
 			throws ServletException, IOException {
 		req.setAttribute("language", language);
-		logger.debug(this);
 		if (!isLogget) {
 			resp.sendRedirect(req.getContextPath() + "/login");
 		} else {
@@ -92,7 +91,7 @@ public class Main implements GetController, PostController {
 			requests = RequestsDao.getActiveRequests(connection, language);
 		} else {
 			paymentTypes = PaymentTypeDao.getTypes(connection, language);
-			accounts = AccountsDao.getUserAccounts(connection, user, language);
+			accounts = AccountsDao.getUserAccounts(connection, user.getId(), language);
 			cards = CardsDao.getAccountsCards(connection, accounts);
 			PaymentStatus status = PaymentStatusDao.getPaymentStatusByName(connection, statuses.get("sent_" + language),
 					language);
@@ -131,7 +130,7 @@ public class Main implements GetController, PostController {
 		} 
 		if (req.getParameter("continue") != null) {	
 			double amount = Double.parseDouble(req.getParameter("amount"));
-			UserAccount account = AccountsDao.getUserAccountById(connection, accountId, user, language);
+			UserAccount account = AccountsDao.getUserAccountById(connection, accountId, language);
 			AccountsDao.changeAccountBalance(connection, accountId,account.getBalance() + amount);
 			resp.sendRedirect(req.getContextPath());
 		} 

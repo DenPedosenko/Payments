@@ -117,7 +117,7 @@ public class Payments implements GetController, PostController {
 	private void initData(String language, int user_id) {
 		user = UserDao.getUser(connection, user_id, language);
 		paymentTypes = PaymentTypeDao.getTypes(connection, language);
-		accounts = AccountsDao.getUserAccounts(connection, user, language);
+		accounts = AccountsDao.getUserAccounts(connection, user.getId(), language);
 		cards = CardsDao.getAccountsCards(connection, accounts);
 	}
 

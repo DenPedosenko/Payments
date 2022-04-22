@@ -18,7 +18,7 @@ public class UserDao {
 	public static List<User> getUsers(Connection connection, String language) {
 		User user = null;
 		List<User> users = new ArrayList<>();
-		try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * from users")) {
+		try (Statement stmt = connection.createStatement(); ResultSet rs = stmt.executeQuery("SELECT * from users where user_type_id=1;")) {
 			while (rs.next()) {
 				user = createUser(connection, rs, language);
 				users.add(user);
@@ -30,6 +30,7 @@ public class UserDao {
 
 		return users;
 	}
+	
 
 	public static int registerUser(Connection connection, User user) {
 		String insertQuery = "INSERT INTO users(first_name, last_name, email, user_password, user_type_id, user_status_id)\n"
@@ -66,10 +67,12 @@ public class UserDao {
 	}
 
 	private static User createUser(Connection connection, ResultSet resultSet, String language) throws SQLException {
-		return new User(resultSet.getInt("id"), resultSet.getString("first_name"), resultSet.getString("last_name"),
-				resultSet.getString("email"), resultSet.getString("user_password"),
+		User user = new User(resultSet.getInt("id"), resultSet.getString("first_name"),
+				resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("user_password"),
 				UserTypeDao.getTypeById(connection, resultSet.getInt("user_type_id"), language),
 				UserStatusDao.getStatusById(connection, resultSet.getInt("user_status_id"), language));
+		user.setAccounts(AccountsDao.getUserAccounts(connection, resultSet.getInt("id"), language));
+		return user;
 	}
 
 	public static User getUser(Connection connection, int id, String language) {
@@ -84,5 +87,19 @@ public class UserDao {
 			logger.info(e.getMessage());
 		}
 		return user;
+	}
+
+
+	public static int changeUserStatus(Connection connection, int id, int statusId) {
+        String changeStatusQuery = "UPDATE users SET user_status_id=? WHERE id=?;";
+        try (PreparedStatement changeStatusStatement = connection.prepareStatement(changeStatusQuery)) {
+            changeStatusStatement.setInt(1, statusId);
+            changeStatusStatement.setInt(2, id);
+            return changeStatusStatement.executeUpdate();
+        } catch (SQLException e) {
+            logger.info(e.getMessage());
+        }
+        return 0;
+		
 	}
 }

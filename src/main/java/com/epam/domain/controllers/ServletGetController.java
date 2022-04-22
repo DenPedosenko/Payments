@@ -45,7 +45,19 @@ public enum ServletGetController {
 		public GetController getControllerInstance(Connection connection) {
 			return Accounts.getInstance(connection);
 		}
-		
+
+	},
+	UsersController("/users") {
+		@Override
+		public GetController getControllerInstance(Connection connection) {
+			return Users.getInstance(connection);
+		}
+	},
+	RequestsController("/requests") {
+		@Override
+		public GetController getControllerInstance(Connection connection) {
+			return Requests.getInstance(connection);
+		}
 	},
 	LogoutController("/logout") {
 		@Override
