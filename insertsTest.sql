@@ -90,4 +90,4 @@ VALUES ('Closed', 'Закритий');
 
 # Requests inserts
 INSERT INTO requests(user_id, account_id, creating_date,  request_status_id)
-VALUES (4, 4,  '2020-10-9', 1);
+VALUES (4, 1,  '2020-10-9', 1);

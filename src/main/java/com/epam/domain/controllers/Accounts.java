@@ -56,7 +56,6 @@ public class Accounts implements GetController {
 			RequestDispatcher view = req.getRequestDispatcher("WEB-INF/view/accounts.jsp");
 			view.forward(req, resp);
 		}
-		
 	}
 
 	private static String getAscending(HttpServletRequest request) {

@@ -20,14 +20,6 @@ public class Login implements GetController, PostController {
 		this.connection = connection;
 	}
 
-	public  Connection getConnection() {
-		return connection;
-	}
-
-	public  void setConnection(Connection connection) {
-		this.connection = connection;
-	}
-
 	public void get(HttpServletRequest req, HttpServletResponse resp, String language, boolean isLoggetIn)
 			throws ServletException, IOException {
 		if (!isLoggetIn) {

@@ -110,8 +110,7 @@ public class Operations implements GetController {
 	     return Math.min(getOperationSubListStartIndex(currentPage) + 10, size);
 	}
 
-	private void orderOperations(String orderBy, String ascending, List<Payment> operations) {
-		logger.debug(ascending + " " +orderBy );
+	public void orderOperations(String orderBy, String ascending, List<Payment> operations) {
 		if (orderBy.equals("id")) {
             if (ascending.equals("true")) {
                 operations.sort(Comparator.comparing(Payment::getId));
