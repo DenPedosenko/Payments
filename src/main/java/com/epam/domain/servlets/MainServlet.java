@@ -23,6 +23,11 @@ public class MainServlet extends HttpServlet {
 	public static Logger logger = Logger.getLogger(MainServlet.class);
 
 	private Connection connection = PaymentsDB.getConnection();
+	
+	public Connection getConnection() {
+		return connection;
+	}
+
 	private static final long serialVersionUID = 2684944235775031753L;
 
 	private boolean isLoggetIn(HttpServletRequest req) {
@@ -49,7 +54,7 @@ public class MainServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getServletPath();
 		boolean isLogget = isLoggetIn(req);
 		String language = getLanguage(req, resp);
@@ -61,7 +66,7 @@ public class MainServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String path = req.getServletPath();
 		String language = getLanguage(req, resp);
 		try {

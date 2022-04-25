@@ -73,7 +73,7 @@ public class Main implements GetController, PostController {
 		}
 	}
 
-	private void setAttributes(HttpServletRequest req) {
+	public void setAttributes(HttpServletRequest req) {
 		if (isAdmin) {
 			req.setAttribute("requests", requests);
 		} else {
@@ -85,7 +85,7 @@ public class Main implements GetController, PostController {
 
 	}
 
-	private void initData(String language, int user_id) {
+	public void initData(String language, int user_id) {
 		user = UserDao.getUser(connection, user_id, language);
 		if (isAdmin = user.getUserType().equals(UserTypeDao.getTypeById(connection, 2, language))) {
 			requests = RequestsDao.getActiveRequests(connection, language);
@@ -99,9 +99,6 @@ public class Main implements GetController, PostController {
 		}
 	}
 
-	public Connection getConnection() {
-		return connection;
-	}
 
 	private Main(Connection connection) {
 		this.connection = connection;
@@ -112,10 +109,6 @@ public class Main implements GetController, PostController {
 			instance = new Main(connection);
 		}
 		return instance;
-	}
-
-	public void setConnection(Connection connection) {
-		this.connection = connection;
 	}
 
 	@Override
